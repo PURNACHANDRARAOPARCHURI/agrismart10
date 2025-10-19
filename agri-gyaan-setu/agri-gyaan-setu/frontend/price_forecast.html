@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Price Forecast | AgriSmart</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    body { background: #f6faf6; }
+    .crop-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 1.1rem 2rem 0.7rem 2rem;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 2px 12px rgba(80,110,50,0.08);
+        margin-bottom: 18px;
+    }
+    .back-btn { background: none; border: none; font-size: 1.4rem; color: #24411f; cursor: pointer; }
+    .crop-header-title { font-size: 1.15rem; font-weight: bold; color: #24411f; }
+    .crop-section-title {
+        font-size: 2.5rem; text-align: center; font-weight: 700; margin-top: 36px; color: #193718;
+    }
+    .crop-section-subtitle {
+        color: #5a715a; text-align: center; font-size: 1.2rem; margin-bottom: 32px;
+    }
+    .forecast-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 32px 35px 28px 35px;
+        box-shadow: 0 2px 16px rgba(80,110,50,0.11);
+        width: 75%;
+        margin: 0 auto 32px auto;
+    }
+    .forecast-title {
+        font-size: 1.55rem; font-weight: 600; color: #193718; margin-bottom: 16px;
+    }
+    .forecast-form-row {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+    .forecast-form-row label {
+        font-weight: 500; color: #24411f; margin-bottom: 7px;
+    }
+    .crop-select {
+        width: 100%;
+        font-size: 1.17rem;
+        padding: 15px 18px;
+        border: 2px solid #4ca548;
+        border-radius: 10px;
+        background: #f8fbf8;
+        margin-top: 2px;
+        color: #24411f;
+    }
+    </style>
+</head>
+<body>
+    <div class="crop-header">
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">&#8592;</button>
+        <div class="crop-header-title">Dashboard</div>
+    </div>
+    <div class="crop-section-title">Price Forecast</div>
+    <div class="crop-section-subtitle">View market trends and price predictions</div>
+    <div class="forecast-card">
+        <div class="forecast-title">Select Crop</div>
+        <div class="forecast-form-row">
+            <select id="crop-select" class="crop-select">
+                <option value="">Choose a crop...</option>
+                <option value="rice">Rice</option>
+                <option value="wheat">Wheat</option>
+                <option value="cotton">Cotton</option>
+                <option value="sugarcane">Sugarcane</option>
+                <option value="maize">Maize</option>
+                <option value="groundnut">Groundnut</option>
+                <option value="turmeric">Turmeric</option>
+            </select>
+        </div>
+    </div>
+</body>
+</html>

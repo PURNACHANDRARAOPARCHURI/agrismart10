@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Recommendation | AgriSmart</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    body { background: #f6faf6;}
+    .crop-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 1.1rem 2rem 0.7rem 2rem;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 2px 12px rgba(80,110,50,0.08);
+        margin-bottom: 18px;
+    }
+    .back-btn { background: none; border: none; font-size: 1.4rem; color: #24411f; cursor: pointer;}
+    .crop-header-title { font-size: 1.15rem; font-weight: bold; color: #24411f; }
+    .crop-section-title { font-size: 2.5rem; text-align: center; font-weight: 700; margin-top: 36px; color: #193718;}
+    .crop-section-subtitle { color: #5a715a; text-align: center; font-size: 1.2rem; margin-bottom: 32px;}
+    .form-card {
+        background: #fff; border-radius: 16px;
+        padding: 35px 30px 24px 30px;
+        box-shadow: 0 2px 16px rgba(80,110,50,0.12);
+        width: 82%; margin: 0 auto 32px auto;
+    }
+    .form-title {
+        font-size: 1.7rem; font-weight: 600;
+        color: #193718; margin-bottom: 18px;
+    }
+    .form-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 18px;
+    }
+    .form-row input, .form-row select {
+        width: 100%;
+        padding: 13px 16px;
+        font-size: 1.13rem;
+        border: 2px solid #bfdabc;
+        border-radius: 8px;
+        background: #f8fbf8;
+        color: #224a20;
+        outline: none;
+        transition: border 0.17s;
+    }
+    .form-row input:focus, .form-row select:focus {
+        border-color: #4ca548;
+    }
+    .submit-btn {
+        width: 100%;
+        padding: 17px 0;
+        background: linear-gradient(90deg, #4ca548, #347a2a 70%);
+        color: #fff;
+        border: none;
+        font-size: 1.18rem;
+        font-weight: bold;
+        border-radius: 9px;
+        cursor: pointer;
+        margin-top: 9px;
+        transition: background 0.19s;
+    }
+    .submit-btn:hover {
+        background: linear-gradient(90deg, #347a2a, #4ca548 70%);
+    }
+    </style>
+</head>
+<body>
+    <div class="crop-header">
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">&#8592;</button>
+        <div class="crop-header-title">Dashboard</div>
+    </div>
+    <div class="crop-section-title">Crop Recommendation</div>
+    <div class="crop-section-subtitle">Get smart crop suggestions based on your land</div>
+    <div class="form-card">
+        <div class="form-title">Farm Details</div>
+        <form>
+            <div class="form-row" style="flex-direction:column;">
+                <label for="location" style="font-weight:500;">Location <span style="color:#dc3e3e">*</span></label>
+                <input type="text" id="location" placeholder="Enter your location" required>
+            </div>
+            <div class="form-row">
+                <div>
+                    <label for="soil-type" style="font-weight:500;">Soil Type</label>
+                    <select id="soil-type">
+                        <option value="">Select soil type</option>
+                        <option value="Red">Red Soil</option>
+                        <option value="Black">Black Soil</option>
+                        <option value="Alluvial">Alluvial Soil</option>
+                        <option value="Laterite">Laterite Soil</option>
+                        <option value="Clay">Clay Soil</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="soil-ph" style="font-weight:500;">Soil pH</label>
+                    <input type="text" id="soil-ph" placeholder="e.g., 6.5">
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <label for="land-size" style="font-weight:500;">Land Size (Acres)</label>
+                    <input type="text" id="land-size" placeholder="e.g., 5">
+                </div>
+                <div>
+                    <label for="crop-test" style="font-weight:500;">Test Specific Crop (Optional)</label>
+                    <select id="crop-test">
+                        <option value="">Optional</option>
+                        <option value="Rice">Rice</option>
+                        <option value="Wheat">Wheat</option>
+                        <option value="Cotton">Cotton</option>
+                        <option value="Sugarcane">Sugarcane</option>
+                        <option value="Maize">Maize</option>
+                        <option value="Groundnut">Groundnut</option>
+                        <option value="Turmeric">Turmeric</option>
+                    </select>
+                </div>
+            </div>
+            <button class="submit-btn" type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

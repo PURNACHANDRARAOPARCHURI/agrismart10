@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f6faf6;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.logo-icon {
+    margin-bottom: 14px;
+}
+
+.main-title {
+    color: #347a2a;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.subtitle {
+    color: #556355;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+}
+
+.login-form {
+    background: #fff;
+    border-radius: 16px;
+    padding: 35px 28px 28px 28px;
+    box-shadow: 0 5px 32px rgba(100,140,60,0.10);
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.login-form h2 {
+    margin: 0 0 6px 0;
+    font-size: 1.50rem;
+    color: #193718;
+}
+
+.login-form p {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+    color: #5a715a;
+}
+
+.signup-link {
+    color: #347a2a;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+.login-form label {
+    margin-top: 10px;
+    color: #204420;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    border: 1px solid #dbeedb;
+    border-radius: 7px;
+    font-size: 1rem;
+    background: #f8fbf8;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.login-form input:focus {
+    border-color: #347a2a;
+}
+
+.login-button {
+    margin-top: 18px;
+    padding: 12px 0;
+    background: linear-gradient(90deg, #4ca548, #55914c 60%);
+    color: white;
+    font-size: 1.15rem;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(100,140,60,0.07);
+}
+
+.login-button:hover {
+    background: linear-gradient(90deg, #347a2a, #4ca548 90%);
+}
