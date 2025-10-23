@@ -54,11 +54,50 @@
         margin-top: 2px;
         color: #24411f;
     }
+    .loading { text-align: center; color: #5a715a; font-style: italic; }
+    .error { color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 8px; margin: 10px 0; }
+    .price-info {
+        background: #f8fbf8;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 15px 0;
+    }
+    .price-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .price-item:last-child {
+        border-bottom: none;
+    }
+    .price-label {
+        font-weight: bold;
+        color: #193718;
+    }
+    .price-value {
+        color: #24411f;
+    }
+    .trend-increasing {
+        color: #28a745;
+        font-weight: bold;
+    }
+    .trend-decreasing {
+        color: #dc3545;
+        font-weight: bold;
+    }
+    .forecast-chart {
+        margin-top: 20px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+    }
     </style>
 </head>
 <body>
     <div class="crop-header">
-        <button class="back-btn" onclick="window.location.href='dashboard.html'">&#8592;</button>
+        <button class="back-btn" onclick="window.location.href='dashboard/'">&#8592;</button>
         <div class="crop-header-title">Dashboard</div>
     </div>
     <div class="crop-section-title">Price Forecast</div>
@@ -68,15 +107,152 @@
         <div class="forecast-form-row">
             <select id="crop-select" class="crop-select">
                 <option value="">Choose a crop...</option>
-                <option value="rice">Rice</option>
-                <option value="wheat">Wheat</option>
-                <option value="cotton">Cotton</option>
-                <option value="sugarcane">Sugarcane</option>
-                <option value="maize">Maize</option>
-                <option value="groundnut">Groundnut</option>
-                <option value="turmeric">Turmeric</option>
             </select>
         </div>
     </div>
+    
+    <div id="forecast-results" class="forecast-card" style="display: none;">
+        <div class="forecast-title">Price Forecast</div>
+        <div id="loading" class="loading" style="display: none;">Loading forecast...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="forecast-details"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api';
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadCrops();
+            
+            // Add event listener for crop selection
+            document.getElementById('crop-select').addEventListener('change', async function() {
+                const cropId = this.value;
+                if (cropId) {
+                    await loadPriceForecast(cropId);
+                } else {
+                    document.getElementById('forecast-results').style.display = 'none';
+                }
+            });
+        });
+
+        async function loadCrops() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/crops/`);
+                if (!response.ok) {
+                    throw new Error('Failed to load crops');
+                }
+                const crops = await response.json();
+                
+                const select = document.getElementById('crop-select');
+                select.innerHTML = '<option value="">Choose a crop...</option>';
+                
+                crops.forEach(crop => {
+                    const option = document.createElement('option');
+                    option.value = crop.id;
+                    option.textContent = crop.name;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading crops:', error);
+                showError('Failed to load crops. Please try again.');
+            }
+        }
+
+        async function loadPriceForecast(cropId) {
+            const resultsDiv = document.getElementById('forecast-results');
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const details = document.getElementById('forecast-details');
+            
+            // Show loading state
+            resultsDiv.style.display = 'block';
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            details.innerHTML = '';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/forecast/${cropId}/`);
+                if (!response.ok) {
+                    throw new Error('Failed to load price forecast');
+                }
+                const forecast = await response.json();
+                
+                // Hide loading, show forecast
+                loading.style.display = 'none';
+                
+                const trendClass = forecast.trend.toLowerCase().includes('increasing') ? 'trend-increasing' : 'trend-decreasing';
+                
+                details.innerHTML = `
+                    <div class="price-info">
+                        <h3 style="color: #193718; margin-bottom: 20px;">${forecast.crop_name} Price Forecast</h3>
+                        
+                        <div class="price-item">
+                            <span class="price-label">Current Market Price:</span>
+                            <span class="price-value">₹${forecast.current_price}/quintal</span>
+                        </div>
+                        
+                        <div class="price-item">
+                            <span class="price-label">Government MSP:</span>
+                            <span class="price-value">₹${forecast.msp}/quintal</span>
+                        </div>
+                        
+                        <div class="price-item">
+                            <span class="price-label">Price Trend:</span>
+                            <span class="price-value ${trendClass}">${forecast.trend}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="forecast-chart">
+                        <h4 style="color: #193718; margin-bottom: 15px;">6-Month Price Forecast</h4>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div style="text-align: center; padding: 10px; background: #f8fbf8; border-radius: 8px;">
+                                <div style="font-weight: bold; color: #193718;">Month 1</div>
+                                <div style="color: #24411f;">₹${forecast.forecast.month_1}</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px; background: #f8fbf8; border-radius: 8px;">
+                                <div style="font-weight: bold; color: #193718;">Month 2</div>
+                                <div style="color: #24411f;">₹${forecast.forecast.month_2}</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px; background: #f8fbf8; border-radius: 8px;">
+                                <div style="font-weight: bold; color: #193718;">Month 3</div>
+                                <div style="color: #24411f;">₹${forecast.forecast.month_3}</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px; background: #f8fbf8; border-radius: 8px;">
+                                <div style="font-weight: bold; color: #193718;">Month 4</div>
+                                <div style="color: #24411f;">₹${forecast.forecast.month_4}</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px; background: #f8fbf8; border-radius: 8px;">
+                                <div style="font-weight: bold; color: #193718;">Month 5</div>
+                                <div style="color: #24411f;">₹${forecast.forecast.month_5}</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px; background: #f8fbf8; border-radius: 8px;">
+                                <div style="font-weight: bold; color: #193718;">Month 6</div>
+                                <div style="color: #24411f;">₹${forecast.forecast.month_6}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 8px; border-left: 4px solid #4ca548;">
+                            <p style="margin: 0; color: #193718; font-weight: 500;">
+                                <strong>Note:</strong> These are estimated prices based on historical data and market trends. 
+                                Actual prices may vary due to various factors including weather, demand, and government policies.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error loading price forecast:', error);
+                loading.style.display = 'none';
+                error.style.display = 'block';
+                error.textContent = 'Failed to load price forecast. Please try again.';
+            }
+        }
+
+        function showError(message) {
+            const error = document.getElementById('error');
+            error.style.display = 'block';
+            error.textContent = message;
+        }
+    </script>
 </body>
 </html>

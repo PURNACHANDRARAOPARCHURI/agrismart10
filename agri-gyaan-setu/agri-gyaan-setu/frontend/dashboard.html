@@ -2,172 +2,355 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AgriSmart | Dashboard</title>
+    <title>FarmAssist | Dashboard</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Inline CSS for dashboard layout, add to your main CSS later for reusability */
-        .dashboard-header {
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            background: #fff;
-            padding: 1.3rem 2rem 1.3rem 2rem;
-            border-radius: 18px 18px 0 0;
-            box-shadow: 0 4px 24px rgba(80,110,50,0.08);
-            margin-bottom: 30px;
+            gap: 12px;
         }
-        .dashboard-title {
-            font-size: 2.5rem;
-            margin-top: 10px;
-            text-align: center;
-            font-weight: 700;
-            color: #193718;
-        }
-        .dashboard-subtitle {
-            color: #5a715a;
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 32px;
-        }
-        .features-row {
-            display: flex;
-            gap: 32px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .feature-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 32px 22px 28px 22px;
-            box-shadow: 0 2px 20px rgba(80,110,50,0.10);
-            width: 320px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            border: 2px solid #eee;
-        }
-        .feature-card svg {
-            margin-bottom: 19px;
-        }
-        .feature-title {
-            font-size: 1.32rem;
-            font-weight: bold;
-            color: #24411f;
-            margin-bottom: 7px;
-        }
-        .feature-desc {
-            color: #566b58;
-            font-size: 1.01rem;
-            margin-bottom: 20px;
-        }
-        .explore-btn {
-            margin-top: auto;
-            width: 100%;
-            padding: 12px 0;
-            border: none;
-            background: linear-gradient(90deg, #4ca548, #349243 80%);
-            color: #fff;
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
             border-radius: 8px;
-            font-size: 1.12rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-weight: bold;
-            cursor: pointer;
-            transition: background 0.18s;
+            font-size: 18px;
         }
-        .explore-btn:hover {
-            background: linear-gradient(90deg, #347a2a, #4ca548 80%);
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2E7D32;
         }
-        body {
-            background: #f6faf6;
-        }
-        .agris-header-logo-title {
+        
+        .header-actions {
             display: flex;
             align-items: center;
             gap: 16px;
         }
-        .header-title-main {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #347a2a;
-            margin: 0;
-        }
-        .header-user-greet {
-            color: #5a715a;
-            font-size: 1.1rem;
-            margin-left: 7px;
-        }
-        .header-menu {
+        
+        .language-selector, .about-btn {
+            background: #f5f5f5;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 8px;
+            font-size: 14px;
+            color: #333;
         }
-        .header-btn {
-            background: #f5faf5;
+        
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn {
+            background: #f5f5f5;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2E7D32;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .page-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 24px;
+        }
+        
+        .feature-icon.crop-info {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .feature-icon.crop-recommend {
+            background: #FF9800;
+            color: white;
+        }
+        
+        .feature-icon.price-forecast {
+            background: #8D6E63;
+            color: white;
+        }
+        
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2E7D32;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .explore-btn {
+            width: 100%;
+            padding: 12px 24px;
+            background: #4CAF50;
+            color: white;
             border: none;
             border-radius: 8px;
-            padding: 9px 19px;
+            font-size: 16px;
             font-weight: 600;
-            color: #193718;
-            font-size: 1rem;
             cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .explore-btn:hover {
+            background: #45a049;
+        }
+        
+        .why-choose-section {
+            margin-top: 4rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2E7D32;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .benefit-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .benefit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2E7D32;
+            margin-bottom: 0.5rem;
+        }
+        
+        .benefit-description {
+            color: #666;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-header">
-        <div class="agris-header-logo-title">
-            <div>
-                <svg width="48" height="48" viewBox="0 0 56 56" fill="none">
-                    <rect width="56" height="56" rx="12" fill="#347a2a"/>
-                    <path d="M28 16v9m0 0c-6 0-9 4.667-9 9s3 6 6 6c2.667 0 4.667-2 6-4m-3-11c6 0 9 4.667 9 9s-3 6-6 6c-2.667 0-4.667-2-6-4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">F</div>
+            <div class="logo-text">FarmAssist</div>
+        </div>
+        <div class="header-actions">
+            <button class="language-selector">
+                🌐 English ▼
+            </button>
+            <button class="about-btn">
+                ℹ️ About Us
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <button class="back-btn" onclick="window.location.href='/'">
+                ← Back to Home
+            </button>
+            <h1 class="page-title">
+                💰 Choose Your Farming Tool
+            </h1>
+        </div>
+
+        <p class="page-subtitle">
+            Select from our three powerful features designed to help you make informed decisions about your crops and maximize your agricultural success.
+        </p>
+
+        <!-- Feature Cards -->
+        <div class="features-grid">
+            <!-- Crop Information Card -->
+            <div class="feature-card">
+                <div class="feature-icon crop-info">📊</div>
+                <h3 class="feature-title">Crop Information</h3>
+                <p class="feature-description">
+                    Get detailed information about cultivation costs, market prices, MSP, and yield estimates for various crops.
+                </p>
+                <a href="crop-info/">
+                    <button class="explore-btn">Explore Feature</button>
+                </a>
             </div>
-            <div>
-                <span class="header-title-main">AgriSmart</span>
-                <span class="header-user-greet">Welcome to AgriSmart, purna</span>
+
+            <!-- Crop Recommendation Card -->
+            <div class="feature-card">
+                <div class="feature-icon crop-recommend">💡</div>
+                <h3 class="feature-title">Crop Recommendation</h3>
+                <p class="feature-description">
+                    Receive intelligent crop recommendations based on your soil type, location, and seasonal conditions.
+                </p>
+                <a href="crop-recommend/">
+                    <button class="explore-btn">Explore Feature</button>
+                </a>
+            </div>
+
+            <!-- Price Forecast Card -->
+            <div class="feature-card">
+                <div class="feature-icon price-forecast">📈</div>
+                <h3 class="feature-title">Price Forecast</h3>
+                <p class="feature-description">
+                    View price predictions, market trends, and get profitability advice for your crops over the next 6 months.
+                </p>
+                <a href="price-forecast/">
+                    <button class="explore-btn">Explore Feature</button>
+                </a>
             </div>
         </div>
-        <div class="header-menu">
-            <select class="header-btn">
-                <option>English</option>
-                <option>Hindi</option>
-                <option>Telugu</option>
-                <option>Tamil</option>
-                <option>Kannada</option>
-                <option>Malayalam</option>
-            </select>
-            <button class="header-btn">Logout</button>
-        </div>
-    </div>
-    <div class="dashboard-title">
-        Dashboard
-    </div>
-    <div class="dashboard-subtitle">
-        Choose a feature below to get started with smart farming decisions
-    </div>
-    <div class="features-row">
-        <!-- Card 1 -->
-        <div class="feature-card">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#468c4a"/><path d="M20 12v5m0 0c-4 0-6 3.333-6 6s2 4 4 4c1.778 0 3.111-1.333 4-2.667m-2-7.333c4 0 6 3.333 6 6s-2 4-4 4c-1.778 0-3.111-1.333-4-2.667" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div class="feature-title">Crop Information</div>
-            <div class="feature-desc">View detailed information about crops including costs, prices, and benefits</div>
-            <a href="crop_info.html"><button class="explore-btn">Explore Feature</button></a>
-        </div>
-        <!-- Card 2 -->
-        <div class="feature-card">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#f8b840"/><path d="M20 12v5m0 0c-4 0-6 3.333-6 6s2 4 4 4c1.778 0 3.111-1.333 4-2.667m-2-7.333c4 0 6 3.333 6 6s-2 4-4 4c-1.778 0-3.111-1.333-4-2.667" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div class="feature-title">Crop Recommendation</div>
-            <div class="feature-desc">Get AI-powered crop recommendations based on your land and conditions</div>
-            <a href="crop_recommend.html"><button class="explore-btn">Explore Feature</button></a>
-        </div>
-        <!-- Card 3 -->
-        <div class="feature-card">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#43a3e2"/><path d="M12 27l6-6 6 6m0-10V27" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div class="feature-title">Price Forecast</div>
-            <div class="feature-desc">View market trends and 6-month price forecasts for crops</div>
-            <a href="price_forecast.html"><button class="explore-btn">Explore Feature</button></a>
+
+        <!-- Why Choose FarmAssist Section -->
+        <div class="why-choose-section">
+            <h2 class="section-title">Why Choose FarmAssist?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌱</div>
+                    <h4 class="benefit-title">Smart Recommendations</h4>
+                    <p class="benefit-description">AI-powered crop suggestions based on your specific conditions</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h4 class="benefit-title">Real-time Data</h4>
+                    <p class="benefit-description">Current market prices and MSP information updated daily</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌍</div>
+                    <h4 class="benefit-title">Multi-language</h4>
+                    <p class="benefit-description">Available in English, Hindi, Telugu, Tamil and more</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h4 class="benefit-title">Profit Optimization</h4>
+                    <p class="benefit-description">Maximize your returns with price forecasting and timing advice</p>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 </html>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load farmer name from localStorage
+    const farmerName = localStorage.getItem('farmer_name');
+    if (farmerName) {
+        document.getElementById('farmer-name').textContent = farmerName;
+    } else {
+        // If no farmer logged in, redirect to login
+        window.location.href = '/';
+    }
+    
+    // Handle logout
+    const logoutBtn = document.querySelector('.header-btn:last-child');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            localStorage.clear();
+            window.location.href = '/';
+        });
+    }
+});
+</script>

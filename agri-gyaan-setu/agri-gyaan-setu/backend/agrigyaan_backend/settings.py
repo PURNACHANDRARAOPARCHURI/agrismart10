@@ -14,11 +14,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'api',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -33,7 +35,7 @@ ROOT_URLCONF = 'agrigyaan_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, '..', 'frontend')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,8 +54,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'agrismart',      # Set your MySQL DB name
-        'USER': 'agrismart',    # Set your MySQL user
-        'PASSWORD': 'hpp475658',  # Set your MySQL password
+        'USER': 'root',    # Set your MySQL user
+        'PASSWORD': '1234',  # Set your MySQL password
         'HOST': 'localhost',         # Or your DB host
         'PORT': '3306',
     }
@@ -72,3 +74,11 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '..', 'frontend'),
+]
+
+# CORS settings for frontend-backend communication
+CORS_ALLOW_ALL_ORIGINS = True  # For development only
+CORS_ALLOW_CREDENTIALS = True
+
