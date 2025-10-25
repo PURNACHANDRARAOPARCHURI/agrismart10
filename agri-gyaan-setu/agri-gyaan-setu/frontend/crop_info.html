@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <title>Crop Information | FarmAssist</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <title>Crop Information | AgriSmart</title>
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -282,8 +283,8 @@
     <!-- Header -->
     <div class="header">
         <div class="logo">
-            <div class="logo-icon">F</div>
-            <div class="logo-text">FarmAssist</div>
+            <div class="logo-icon">A</div>
+            <div class="logo-text">AgriSmart</div>
         </div>
         <div class="header-actions">
             <button class="language-selector">
@@ -299,17 +300,17 @@
     <div class="main-content">
         <!-- Page Header -->
         <div class="page-header">
-            <button class="back-btn" onclick="window.location.href='dashboard/'">
+            <button class="back-btn" onclick="window.location.href='/dashboard/'">
                 ← Back to Home
             </button>
-            <h1 class="page-title">
-                📊 Crop Information
-            </h1>
+            <h1 class="page-title" data-i18n="page_title">
+                    📊 Crop Information
+                </h1>
         </div>
 
         <!-- Crop Selection Card -->
         <div class="crop-selection-card">
-            <h2 class="crop-selection-title">Select a Crop for Price Analysis</h2>
+            <h2 class="crop-selection-title" data-i18n="select_crop">Select a Crop for Price Analysis</h2>
             <div class="custom-dropdown">
                 <div class="dropdown-selected" id="dropdown-selected">
                     Choose a crop to see price forecasts
@@ -327,12 +328,14 @@
         </div>
 
         <!-- Loading and Error States -->
-        <div id="loading" class="loading" style="display: none;">Loading crop information...</div>
-        <div id="error" class="error" style="display: none;"></div>
+    <div id="loading" class="loading" style="display: none;" data-i18n="loading">Loading crop information...</div>
+    <div id="error" class="error" style="display: none;"></div>
     </div>
 
+    <script src="{% static 'assets/js/api.js' %}"></script>
+    <script src="{% static 'assets/js/i18n.js' %}"></script>
     <script>
-        const API_BASE_URL = 'http://localhost:8000/api';
+        const API_BASE_URL = '';
         const cropEmojis = {
             "Rice": "🌾",
             "Wheat": "🌾", 
@@ -387,7 +390,7 @@
                 loadingDiv.style.display = 'block';
                 errorDiv.style.display = 'none';
                 try {
-                    const response = await fetch(`${API_BASE_URL}/crops/`);
+                    const response = await fetch(`/api/crops/`);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -423,40 +426,41 @@
                 loadingDiv.style.display = 'block';
                 errorDiv.style.display = 'none';
 
-                try {
-                    const response = await fetch(`${API_BASE_URL}/crops/${cropId}/`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const crop = await response.json();
+                    try {
+                    // Use the shared API helper which points to /api
+                    const crop = await window.api.getCropInfo(cropId);
 
-                    // Mock additional data for demonstration
-                    const mockData = {
-                        cost_of_cultivation: '45,000',
-                        expected_yield: '400-500',
-                        estimated_profit: '85,000-1,20,000',
-                        current_market_price: '340',
-                        government_msp: '315',
-                        primary_uses: 'Sugar production, jaggery, ethanol',
-                        recommended_fertilizers: 'NPK 250:125:125 kg/acre',
-                        profitability_analysis: 'Based on current market conditions and average yield, this crop shows good profitability potential. Consider factors like water availability, soil quality, and local market demand.'
+                    // Compute display values using crop fields + base price map
+                    const basePrices = {
+                        'Rice': 2500,'Wheat':2200,'Maize':1800,'Sugarcane':1500,'Cotton':3000,'Millet':1600,'Barley':1700,'Sorghum':1400,'Soybean':2600,'Potato':1200
                     };
+
+                    const current_market_price = basePrices[crop.name] || 2000;
+                    const government_msp = Math.round(current_market_price * 0.88);
+                    // crude expected yield estimate (quintals/acre) from nitrogen value
+                    const expected_yield_q = Math.max(1, Math.round((crop.nitrogen || 1) * 40));
+                    const cost_of_cultivation = Math.round(current_market_price * expected_yield_q * 0.18);
+                    const estimated_profit_min = Math.round((current_market_price * expected_yield_q) - cost_of_cultivation);
+                    const estimated_profit_max = Math.round(estimated_profit_min * 1.3);
+
+                    const primary_uses = crop.name === 'Sugarcane' ? 'Sugar production, jaggery, ethanol' : 'Food / commodity';
+                    const recommended_fertilizers = `NPK ${Math.round((crop.nitrogen||1)*100)}:${Math.round((crop.phosphorus||1)*50)}:${Math.round((crop.potassium||1)*50)} kg/acre`;
 
                     cropInfoContainer.innerHTML = `
                         <!-- Cost & Investment Card -->
                         <div class="crop-card">
                             <h3 class="crop-card-title">Cost & Investment</h3>
                             <div class="crop-detail-row">
-                                <span class="detail-label">Cost of Cultivation:</span>
-                                <span class="detail-value value-brown">₹${mockData.cost_of_cultivation}</span>
+                                <span class="detail-label" data-i18n="cost_of_cultivation">Cost of Cultivation:</span>
+                                <span class="detail-value value-brown">₹${cost_of_cultivation}</span>
                             </div>
                             <div class="crop-detail-row">
-                                <span class="detail-label">Expected Yield:</span>
-                                <span class="detail-value value-green">${mockData.expected_yield} quintals/acre</span>
+                                <span class="detail-label" data-i18n="expected_yield">Expected Yield:</span>
+                                <span class="detail-value value-green">${expected_yield_q} quintals/acre</span>
                             </div>
                             <div class="crop-detail-row">
-                                <span class="detail-label">Estimated Profit:</span>
-                                <span class="detail-value value-orange">₹${mockData.estimated_profit}/acre</span>
+                                <span class="detail-label" data-i18n="estimated_profit">Estimated Profit:</span>
+                                <span class="detail-value value-orange">₹${estimated_profit_min}/acre</span>
                             </div>
                         </div>
 
@@ -464,16 +468,16 @@
                         <div class="crop-card">
                             <h3 class="crop-card-title">Market Prices</h3>
                             <div class="crop-detail-row">
-                                <span class="detail-label">Current Market Price:</span>
-                                <span class="detail-value value-brown">₹${mockData.current_market_price}/quintal</span>
+                                <span class="detail-label" data-i18n="current_market_price">Current Market Price:</span>
+                                <span class="detail-value value-brown">₹${current_market_price}/quintal</span>
                             </div>
                             <div class="crop-detail-row">
-                                <span class="detail-label">Government MSP:</span>
-                                <span class="detail-value value-green">₹${mockData.government_msp}/quintal</span>
+                                <span class="detail-label" data-i18n="government_msp">Government MSP:</span>
+                                <span class="detail-value value-green">₹${government_msp}/quintal</span>
                             </div>
                             <div class="info-box" id="msp-alert">
                                 <span class="icon">💡</span>
-                                <span>Current market price is above MSP - good time to sell!</span>
+                                <span id="msp-text"></span>
                             </div>
                         </div>
 
@@ -482,23 +486,97 @@
                             <h3 class="crop-card-title">Additional Information</h3>
                             <div class="crop-detail-row">
                                 <span class="detail-label">Primary Uses:</span>
-                                <span class="detail-value">${mockData.primary_uses}</span>
+                                <span class="detail-value">${primary_uses}</span>
                             </div>
                             <div class="crop-detail-row">
                                 <span class="detail-label">Recommended Fertilizers:</span>
-                                <span class="detail-value">${mockData.recommended_fertilizers}</span>
+                                <span class="detail-value">${recommended_fertilizers}</span>
                             </div>
                             <div class="info-box" style="background: #fff3cd; border-left-color: #ffc107;">
                                 <span class="icon" style="color: #ffc107;">💰</span>
-                                <span>Profitability Analysis: ${mockData.profitability_analysis}</span>
+                                <span id="profitability-text"></span>
                             </div>
+                        </div>
+
+                        <!-- Actions: Recommendation & Forecast -->
+                        <div class="crop-card">
+                            <h3 class="crop-card-title">Tools</h3>
+                            <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                                <button id="recommend-btn" class="explore-btn" style="background:#FF9800;">Get Recommendation</button>
+                                <button id="forecast-btn" class="explore-btn" style="background:#8D6E63;">Show Price Forecast</button>
+                                <a class="explore-btn" href="/price-forecast/" style="background:#4CAF50; text-align:center; line-height:32px;">Open Price Forecast Page</a>
+                            </div>
+                            <div style="margin-top:10px; font-size:0.95rem; color:#555;" data-i18n="recommendation_note">Note: The recommendation model was trained on N, P, K and pH values. Other fields (temperature, humidity, rainfall) are optional and not required for the model.</div>
+                            <div id="recommend-result" style="margin-top:12px;"></div>
+                            <div id="forecast-preview" style="margin-top:12px;"></div>
                         </div>
                     `;
 
+                    // Fill dynamic bits
+                    document.getElementById('msp-text').textContent = current_market_price >= government_msp ? 'Current market price is above MSP - good time to sell!' : 'Market price is below MSP - consider storing or value-add.';
+                    document.getElementById('profitability-text').textContent = `Estimated profit range: ₹${estimated_profit_min} - ₹${estimated_profit_max} per acre.`;
+
                     cropInfoContainer.style.display = 'grid';
+
+                    // Wire up recommendation button
+                    const recommendBtn = document.getElementById('recommend-btn');
+                    const recommendResult = document.getElementById('recommend-result');
+                    if (recommendBtn) {
+                        recommendBtn.addEventListener('click', async function() {
+                            recommendResult.innerHTML = '<div class="loading">Running recommendation...</div>';
+                            try {
+                                // Use only N, P, K and pH — model was trained on these four features
+                                const features = [
+                                    crop.nitrogen || 0,
+                                    crop.phosphorus || 0,
+                                    crop.potassium || 0,
+                                    crop.ph || 0
+                                ];
+                                const res = await window.api.recommendCrop(features);
+                                recommendResult.innerHTML = `<div class="info-box"><span class="icon">💡</span> Recommended crop: <strong>${res.recommended_crop}</strong></div>`;
+                            } catch (err) {
+                                console.error('Recommendation error', err);
+                                recommendResult.innerHTML = `<div class="error">Failed to get recommendation. Try again later.</div>`;
+                            }
+                        });
+                    }
+
+                    // Wire up forecast button
+                    const forecastBtn = document.getElementById('forecast-btn');
+                    const forecastPreview = document.getElementById('forecast-preview');
+                    if (forecastBtn) {
+                        forecastBtn.addEventListener('click', async function() {
+                            forecastPreview.innerHTML = '<div class="loading">Loading forecast...</div>';
+                            try {
+                                const forecast = await window.api.getForecast(crop.id);
+                                const trendClass = (forecast.trend || '').toLowerCase().includes('increasing') ? 'trend-increasing' : 'trend-decreasing';
+                                forecastPreview.innerHTML = `
+                                    <div class="price-info">
+                                        <h4 style="margin-top:0;">${forecast.crop_name} - Forecast Summary</h4>
+                                        <div class="price-item"><span class="price-label">Current Price:</span><span class="price-value">₹${forecast.current_price}</span></div>
+                                        <div class="price-item"><span class="price-label">MSP:</span><span class="price-value">₹${forecast.msp}</span></div>
+                                        <div class="price-item"><span class="price-label">Trend:</span><span class="price-value ${trendClass}">${forecast.trend}</span></div>
+                                    </div>
+                                    <div style="margin-top:10px;">
+                                        <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:8px;">
+                                            <div style="background:#f8fbf8;padding:8px;border-radius:6px;text-align:center;">M1<br>₹${forecast.forecast.month_1}</div>
+                                            <div style="background:#f8fbf8;padding:8px;border-radius:6px;text-align:center;">M2<br>₹${forecast.forecast.month_2}</div>
+                                            <div style="background:#f8fbf8;padding:8px;border-radius:6px;text-align:center;">M3<br>₹${forecast.forecast.month_3}</div>
+                                            <div style="background:#f8fbf8;padding:8px;border-radius:6px;text-align:center;">M4<br>₹${forecast.forecast.month_4}</div>
+                                            <div style="background:#f8fbf8;padding:8px;border-radius:6px;text-align:center;">M5<br>₹${forecast.forecast.month_5}</div>
+                                            <div style="background:#f8fbf8;padding:8px;border-radius:6px;text-align:center;">M6<br>₹${forecast.forecast.month_6}</div>
+                                        </div>
+                                    </div>
+                                `;
+                            } catch (err) {
+                                console.error('Forecast error', err);
+                                forecastPreview.innerHTML = `<div class="error">Failed to load forecast. Try again later.</div>`;
+                            }
+                        });
+                    }
                 } catch (error) {
                     console.error('Error fetching crop info:', error);
-                    errorDiv.textContent = 'Failed to load crop details. Please try again.';
+                    errorDiv.textContent = 'Failed to load crop details. ' + (error && error.message ? error.message : '') + ' Please try again.';
                     errorDiv.style.display = 'block';
                 } finally {
                     loadingDiv.style.display = 'none';
@@ -509,5 +587,6 @@
             loadCrops();
         });
     </script>
+    <!-- Language toggling handled by assets/js/i18n.js -->
 </body>
 </html>

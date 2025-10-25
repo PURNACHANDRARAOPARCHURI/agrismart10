@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Sign Up | AgriSmart</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
     body { background: #f6faf6; }
@@ -133,6 +134,7 @@
         </form>
     </div>
 
+    <script src="{% static 'assets/js/api.js' %}"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.querySelector('.signup-card');
@@ -143,11 +145,12 @@
                 const formData = {
                     name: document.getElementById('name').value,
                     email: document.getElementById('signup-email').value,
-                    location: document.getElementById('location').value
+                    location: document.getElementById('location').value,
+                    password: document.getElementById('signup-password').value
                 };
                 
                 try {
-                    const response = await fetch('http://localhost:8000/api/auth/register/', {
+                    const response = await fetch('/api/auth/register/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -157,8 +160,28 @@
                     
                     if (response.ok) {
                         const data = await response.json();
-                        alert('Registration successful! You can now login with any password.');
-                        window.location.href = "/";
+                        // Try to auto-login the user with the provided credentials
+                        try {
+                            const loginRes = await fetch('/api/auth/login/', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ email: formData.email, password: formData.password })
+                            });
+                            if (loginRes.ok) {
+                                const loginData = await loginRes.json();
+                                // store minimal farmer info locally and redirect to dashboard
+                                localStorage.setItem('farmer_id', loginData.farmer_id);
+                                localStorage.setItem('farmer_name', loginData.name);
+                                window.location.href = '/dashboard/';
+                            } else {
+                                alert('Registration successful. Please log in using your credentials.');
+                                window.location.href = '/';
+                            }
+                        } catch (err) {
+                            console.error('Auto-login failed:', err);
+                            alert('Registration successful. Please log in using your credentials.');
+                            window.location.href = '/';
+                        }
                     } else {
                         const error = await response.json();
                         alert('Registration failed: ' + (error.error || 'Please check your input'));

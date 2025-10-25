@@ -1,250 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
-    <meta charset="UTF-8">
-    <title>FarmAssist | Dashboard</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AgriSmart Dashboard</title>
+    <!-- App stylesheet (main styles for header, cards, buttons) -->
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <!-- FullCalendar local fallback style (if present) -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/fullcalendar/main.min.css' %}">
+
     <style>
-        body {
-            background: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .header {
-            background: #fff;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: #4CAF50;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        
-        .logo-text {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2E7D32;
-        }
-        
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
-        .language-selector, .about-btn {
-            background: #f5f5f5;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #333;
-        }
-        
-        .main-content {
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .page-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 2rem;
-        }
-        
-        .back-btn {
-            background: #f5f5f5;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #333;
-        }
-        
-        .page-title {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2E7D32;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .page-subtitle {
-            color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .feature-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 24px;
-        }
-        
-        .feature-icon.crop-info {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .feature-icon.crop-recommend {
-            background: #FF9800;
-            color: white;
-        }
-        
-        .feature-icon.price-forecast {
-            background: #8D6E63;
-            color: white;
-        }
-        
-        .feature-title {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #2E7D32;
-            margin-bottom: 1rem;
-        }
-        
-        .feature-description {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        
-        .explore-btn {
-            width: 100%;
-            padding: 12px 24px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        
-        .explore-btn:hover {
-            background: #45a049;
-        }
-        
-        .why-choose-section {
-            margin-top: 4rem;
-        }
-        
-        .section-title {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2E7D32;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .benefit-card {
-            text-align: center;
-            padding: 1.5rem;
-        }
-        
-        .benefit-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-        
-        .benefit-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #2E7D32;
-            margin-bottom: 0.5rem;
-        }
-        
-        .benefit-description {
-            color: #666;
-            font-size: 0.9rem;
-        }
+    /* Minimal inline styles for dashboard layout. The main stylesheet provides full site styles. */
+    .quick-actions {
+        margin-top:12px;
+        display:flex;
+        gap:12px;
+        flex-wrap:wrap;
+        padding:12px;
+        background:#f0f0f0;
+        border-radius:8px;
+    }
+
+    .back-btn {
+        background: #f5f5f5;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #2E7D32;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .page-subtitle {
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .feature-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e0e0e0;
+    }
+
+    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+
+    .feature-icon { width:60px; height:60px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:1.5rem; font-size:24px; }
+    .feature-icon.crop-info { background:#4CAF50; color:#fff }
+    .feature-icon.crop-recommend { background:#FF9800; color:#fff }
+    .feature-icon.price-forecast { background:#8D6E63; color:#fff }
+
+    .feature-title { font-size:1.4rem; font-weight:bold; color:#2E7D32; margin-bottom:1rem }
+    .feature-description { color:#666; line-height:1.6; margin-bottom:1.5rem }
+
+    .explore-btn { width:100%; padding:12px 24px; background:#4CAF50; color:#fff; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer }
+    .explore-btn:hover { background:#45a049 }
+
+    .why-choose-section { margin-top:4rem }
+    .section-title { font-size:2rem; font-weight:bold; color:#2E7D32; text-align:center; margin-bottom:2rem }
+    .benefits-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1.5rem }
+    .benefit-card { text-align:center; padding:1.5rem }
+    .benefit-icon { width:50px; height:50px; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:24px }
+    .benefit-title { font-size:1.1rem; font-weight:600; color:#2E7D32; margin-bottom:0.5rem }
+    .benefit-description { color:#666; font-size:0.9rem }
+    /* Header / top bar styles to match previous look */
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(180deg, #f6faf6 0%, #ffffff 100%);
+        padding: 18px 28px;
+        border-bottom: 1px solid #e9f0ea;
+    }
+    .header .logo { display:flex; align-items:center; gap:12px }
+    .logo-icon { width:48px; height:48px; border-radius:10px; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(50,80,40,0.06); font-weight:700; color:#2E7D32 }
+    .logo-text { font-size:1.6rem; color:#2E7D32; font-weight:700; margin-left:8px }
+    .header-actions { margin-left:auto; display:flex; gap:10px; align-items:center }
+    .header .about-btn, .header .header-btn { background:#fff; border:1px solid #e6e6e6; padding:8px 10px; border-radius:6px; cursor:pointer }
+    .language-selector { background:#fff; border:1px solid #e6e6e6; padding:8px 10px; border-radius:6px }
+    .main-content { padding: 18px 24px 48px 24px }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
         <div class="logo">
-            <div class="logo-icon">F</div>
-            <div class="logo-text">FarmAssist</div>
+                <div class="logo-icon">AS</div>
+            <div class="logo-text">AgriSmart</div>
         </div>
         <div class="header-actions">
-            <button class="language-selector">
-                🌐 English ▼
-            </button>
-            <button class="about-btn">
-                ℹ️ About Us
-            </button>
+            <button class="language-selector" id="language-btn">🌐 English ▼</button>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <span id="farmer-name" style="font-weight:600; color:#2E7D32;"></span>
+                <button id="about-btn" class="about-btn header-btn" type="button">ℹ️ About</button>
+                <button id="logout-btn" class="about-btn header-btn" type="button">🚪 Logout</button>
+            </div>
         </div>
     </div>
 
@@ -252,60 +126,77 @@
     <div class="main-content">
         <!-- Page Header -->
         <div class="page-header">
-            <button class="back-btn" onclick="window.location.href='/'">
-                ← Back to Home
-            </button>
-            <h1 class="page-title">
-                💰 Choose Your Farming Tool
-            </h1>
-        </div>
-
-        <p class="page-subtitle">
-            Select from our three powerful features designed to help you make informed decisions about your crops and maximize your agricultural success.
-        </p>
-
-        <!-- Feature Cards -->
-        <div class="features-grid">
-            <!-- Crop Information Card -->
-            <div class="feature-card">
-                <div class="feature-icon crop-info">📊</div>
-                <h3 class="feature-title">Crop Information</h3>
-                <p class="feature-description">
-                    Get detailed information about cultivation costs, market prices, MSP, and yield estimates for various crops.
-                </p>
-                <a href="crop-info/">
-                    <button class="explore-btn">Explore Feature</button>
-                </a>
+            <button class="back-btn" onclick="window.location.href='/'">← Back to Home</button>
             </div>
 
-            <!-- Crop Recommendation Card -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load farmer name from localStorage
+            const farmerName = localStorage.getItem('farmer_name');
+            if (farmerName) {
+                document.getElementById('farmer-name').textContent = farmerName;
+            } else {
+                // If no farmer logged in, redirect to login
+                window.location.href = '/';
+            }
+    
+            // Handle logout
+            const logoutBtn = document.querySelector('.header-btn:last-child');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    localStorage.clear();
+                    window.location.href = '/';
+                });
+            }
+        });
+        </script>
+        <script src="{% static 'assets/js/i18n.js' %}"></script>
+
+        <!-- Quick action tiles and calendar card -->
+        <div class="feature-card" style="margin-bottom:1.5rem;">
+            <div class="feature-title" data-i18n="quick_actions">Quick Actions</div>
+            <div class="quick-actions" style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
+                <a class="action-tile feature-card" href="/crop-recommend/" data-i18n="tile_recommend" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">💡 Crop Recommendation</a>
+                <a class="action-tile feature-card" href="/price-forecast/" data-i18n="tile_forecast" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">📈 Price Forecast</a>
+                <a class="action-tile feature-card" href="/crop-info/" data-i18n="tile_info" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">🌾 Crop Info</a>
+                <a class="action-tile feature-card" href="/calendar/" data-i18n="tile_calendar" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">📅 Calendar</a>
+                <a class="action-tile feature-card" href="/signup/" data-i18n="tile_profile" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">👤 Profile</a>
+            </div>
+        </div>
+
+        <!-- Full feature cards (separate) -- moved above calendar -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px; margin-top:18px; margin-bottom:18px;">
+            <div class="feature-card">
+                <div class="feature-icon crop-info">🌾</div>
+                <h3 class="feature-title" data-i18n="feature_info">Crop Information</h3>
+                <p class="feature-description" data-i18n="feature_info_desc">Browse crop-specific details, market prices, and quick tools like recommendations and forecasts.</p>
+                <a href="/crop-info/"><button class="explore-btn" data-i18n="btn_view_info">View Crop Info</button></a>
+            </div>
+
             <div class="feature-card">
                 <div class="feature-icon crop-recommend">💡</div>
-                <h3 class="feature-title">Crop Recommendation</h3>
-                <p class="feature-description">
-                    Receive intelligent crop recommendations based on your soil type, location, and seasonal conditions.
-                </p>
-                <a href="crop-recommend/">
-                    <button class="explore-btn">Explore Feature</button>
-                </a>
+                <h3 class="feature-title" data-i18n="feature_recommend">Crop Recommendation</h3>
+                <p class="feature-description" data-i18n="feature_recommend_desc">Receive intelligent crop recommendations based on your soil type, location, and seasonal conditions.</p>
+                <a href="/crop-recommend/"><button class="explore-btn" data-i18n="btn_explore_recommend">Explore Feature</button></a>
             </div>
 
-            <!-- Price Forecast Card -->
             <div class="feature-card">
                 <div class="feature-icon price-forecast">📈</div>
-                <h3 class="feature-title">Price Forecast</h3>
-                <p class="feature-description">
-                    View price predictions, market trends, and get profitability advice for your crops over the next 6 months.
-                </p>
-                <a href="price-forecast/">
-                    <button class="explore-btn">Explore Feature</button>
-                </a>
+                <h3 class="feature-title" data-i18n="feature_forecast">Price Forecast</h3>
+                <p class="feature-description" data-i18n="feature_forecast_desc">View price predictions, market trends, and get profitability advice for your crops over the next 6 months.</p>
+                <a href="/price-forecast/"><button class="explore-btn" data-i18n="btn_explore_forecast">Explore Feature</button></a>
             </div>
         </div>
 
-        <!-- Why Choose FarmAssist Section -->
+        <div class="feature-card">
+            <div class="feature-icon">📅</div>
+            <h3 class="feature-title" data-i18n="tile_calendar">Crop Calendar</h3>
+            <p class="feature-description">Important sowing & harvesting dates. Click a date to view events and quick weather.</p>
+            <div id="calendar-container" style="min-height:260px; max-width:900px; margin:0 auto;"></div>
+        </div>
+
         <div class="why-choose-section">
-            <h2 class="section-title">Why Choose FarmAssist?</h2>
+        <h2 class="section-title">Why Choose AgriSmart?</h2>
             <div class="benefits-grid">
                 <div class="benefit-card">
                     <div class="benefit-icon">🌱</div>
@@ -330,27 +221,250 @@
             </div>
         </div>
     </div>
-</body>
-</html>
-
+<!-- Footer scripts loaded below -->
+<!-- Load API helper and calendar integration (vendor JS loaded dynamically) -->
+<script src="{% static 'assets/js/api.js' %}"></script>
+<script src="{% static 'assets/js/calendar.js' %}"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Load farmer name from localStorage
-    const farmerName = localStorage.getItem('farmer_name');
-    if (farmerName) {
-        document.getElementById('farmer-name').textContent = farmerName;
-    } else {
-        // If no farmer logged in, redirect to login
-        window.location.href = '/';
+// Ensure FullCalendar (and rrule) are loaded before initializing the calendar.
+function loadScript(src){
+    return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = src;
+        s.async = false;
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error('Failed to load script: '+src));
+        document.head.appendChild(s);
+    });
+}
+
+async function ensureCalendarAndInit(){
+    try {
+        // Try to load local vendor assets (if you placed them under static/assets/vendor/...)
+        const localFC = '{% static "assets/vendor/fullcalendar/main.min.js" %}';
+        const localRR = '{% static "assets/vendor/rrule/rrule.min.js" %}';
+        const localFCcss = '{% static "assets/vendor/fullcalendar/main.min.css" %}';
+
+        // add CSS (prefer local, fallback to CDN)
+        function addCss(href){
+            // Add a stylesheet but don't fail hard if it cannot be loaded (fall back to unstyled calendar)
+            return new Promise((resolve) => {
+                const l = document.createElement('link');
+                l.rel = 'stylesheet';
+                l.href = href;
+                l.onload = () => resolve(true);
+                l.onerror = () => {
+                    console.warn('Could not load css:', href);
+                    // resolve anyway so initialization continues (calendar may be unstyled)
+                    resolve(false);
+                };
+                document.head.appendChild(l);
+            });
+        }
+
+        // attempt local CSS, then CDN
+        try { await addCss(localFCcss); } catch (e) { await addCss('https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.css'); }
+
+        // attempt to load FullCalendar core (local first, then CDN)
+        if (typeof FullCalendar === 'undefined') {
+            try {
+                await loadScript(localFC);
+            } catch (err) {
+                await loadScript('https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.js');
+            }
+        }
+        // rrule may be required for recurrence support - try local then CDN
+        if (typeof RRule === 'undefined') {
+            try {
+                await loadScript(localRR);
+            } catch (err) {
+                await loadScript('https://cdn.jsdelivr.net/npm/rrule@2.7.1/dist/es5/rrule.min.js');
+            }
+        }
+
+        if (typeof FullCalendar === 'undefined') throw new Error('FullCalendar did not initialize');
+
+        // Ensure common plugins (daygrid, timegrid, interaction) are loaded because
+        // views like "dayGridMonth" require the daygrid plugin. Try local plugin files
+        // under static/assets/vendor/fullcalendar/... then fallback to CDN/unpkg.
+        const pluginCandidates = [
+            { name: 'dayGrid', local: '{% static "assets/vendor/fullcalendar/daygrid/main.min.js" %}', cdn: 'https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.7/index.global.min.js' },
+            { name: 'timeGrid', local: '{% static "assets/vendor/fullcalendar/timegrid/main.min.js" %}', cdn: 'https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.7/index.global.min.js' },
+            { name: 'interaction', local: '{% static "assets/vendor/fullcalendar/interaction/main.min.js" %}', cdn: 'https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.7/index.global.min.js' }
+        ];
+
+        async function ensurePlugins() {
+            for (const p of pluginCandidates) {
+                // skip if plugin seems already available on window
+                if (window[p.name + 'Plugin'] || window['FullCalendar' + p.name.charAt(0).toUpperCase() + p.name.slice(1) + 'Plugin'] || window['FullCalendar' + p.name.charAt(0).toUpperCase() + p.name.slice(1)]) {
+                    continue;
+                }
+                // try local file then CDN then unpkg
+                try {
+                    await loadScript(p.local);
+                } catch (errLocal) {
+                    try {
+                        await loadScript(p.cdn);
+                    } catch (errCdn) {
+                        // try unpkg equivalent
+                        const unpkg = p.cdn.replace('https://cdn.jsdelivr.net/npm/', 'https://unpkg.com/');
+                        try { await loadScript(unpkg); } catch (errUnpkg) { console.warn('Failed to load plugin', p.name, errUnpkg); }
+                    }
+                }
+            }
+        }
+
+        await ensurePlugins();
+
+        // helper to find the plugin object exposed by the UMD build under a few possible globals
+        function findPlugin(name){
+            const candidates = [
+                name + 'Plugin',
+                'FullCalendar' + name.charAt(0).toUpperCase() + name.slice(1) + 'Plugin',
+                'FullCalendar' + name.charAt(0).toUpperCase() + name.slice(1)
+            ];
+            for (const c of candidates) if (window[c]) return window[c];
+            return null;
+        }
+
+        const dayGridPlugin = findPlugin('dayGrid');
+        const timeGridPlugin = findPlugin('timeGrid');
+        const interactionPlugin = findPlugin('interaction');
+
+        const plugins = [dayGridPlugin, timeGridPlugin, interactionPlugin].filter(Boolean);
+
+        // initialize FullCalendar
+        const calendarEl = document.getElementById('calendar-container');
+        if (!calendarEl) return;
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: plugins.length ? plugins : undefined,
+        initialView: 'dayGridMonth',
+        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+        events: function(info, successCallback, failureCallback){
+            // fetch events for the visible range using our API (use start/end to avoid
+            // issues when FullCalendar's start date falls in the previous month)
+            const start = info.startStr;
+            const end = info.endStr;
+            fetch(`/api/calendar/?start=${start}&end=${end}`).then(r => r.json()).then(data => {
+                const events = data.flatMap(ev => {
+                    if (ev.recurrence){
+                        // let FullCalendar + rrule handle recurrence; attach rrule object
+                            return [{
+                            id: ev.id,
+                            // prefer a human title in notes if present, otherwise fallback to event_type
+                            title: ev.notes && ev.notes.trim() ? ev.notes : `${ev.event_type} ${ev.crop_name ? '- '+ev.crop_name : ''}`,
+                            rrule: ev.recurrence,
+                            duration: ev.end_date && ev.end_date !== ev.date ? (new Date(ev.end_date) - new Date(ev.date)) : null,
+                            extendedProps: { notes: ev.notes }
+                        }];
+                    }
+                    return [{
+                        id: ev.id,
+                        // prefer showing the user-provided notes/title if available
+                        title: ev.notes && ev.notes.trim() ? ev.notes : `${ev.event_type} ${ev.crop_name ? '- '+ev.crop_name : ''}`,
+                        start: ev.date,
+                        end: ev.end_date || ev.date,
+                        extendedProps: { notes: ev.notes }
+                    }];
+                });
+                successCallback(events);
+            }).catch(failureCallback);
+        },
+        eventClick: function(info){
+            // show details and weather
+            const ev = info.event;
+            const dateStr = ev.startStr;
+            const notes = ev.extendedProps.notes || '';
+            const panel = document.createElement('div');
+            panel.className = 'cal-panel';
+            panel.innerHTML = `<h3>${dateStr}</h3><p>${ev.title}</p><p>${notes}</p><div style="margin-top:8px"><button id=\"show-weather-btn\">Show weather</button></div><div id=\"weather-output\" style=\"margin-top:8px;color:#333\"></div>`;
+            document.body.appendChild(panel);
+            const closeBtn = document.createElement('button'); closeBtn.textContent='Close'; closeBtn.addEventListener('click', ()=>panel.remove()); panel.appendChild(closeBtn);
+
+            // wire up the weather button to use browser geolocation if available
+            const wbtn = panel.querySelector('#show-weather-btn');
+            const wout = panel.querySelector('#weather-output');
+            if (wbtn) {
+                wbtn.addEventListener('click', () => {
+                    wout.textContent = 'Loading weather...';
+                    // try browser geolocation first
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(pos => {
+                            const lat = pos.coords.latitude; const lon = pos.coords.longitude;
+                            fetch(`/api/weather/?lat=${lat}&lon=${lon}`).then(r=>{
+                                if (!r.ok) throw new Error('HTTP '+r.status);
+                                return r.json();
+                            }).then(data => {
+                                if (data.error) { wout.textContent = 'Weather error: '+data.error; return; }
+                                wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rainfall: ${data.rainfall} mm</div>`;
+                            }).catch(err=>{ wout.textContent='Failed to load weather: '+err.message; });
+                        }, err => {
+                            // ask for manual location if permission denied
+                            const loc = prompt('Allow location or enter a city name to get weather:');
+                            if (!loc) { wout.textContent = 'No location provided'; return; }
+                            fetch(`/api/weather/?location=${encodeURIComponent(loc)}`).then(r=>{ if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(data => {
+                                if (data.error) { wout.textContent = 'Weather error: '+data.error; return; }
+                                wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rain: ${data.rainfall} mm</div>`;
+                            }).catch(err=> wout.textContent='Failed to load weather: '+err.message);
+                        }, {timeout:5000});
+                    } else {
+                        const loc = prompt('Enter a city name to get weather:');
+                        if (!loc) { wout.textContent = 'No location provided'; return; }
+                        fetch(`/api/weather/?location=${encodeURIComponent(loc)}`).then(r=>{ if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(data => {
+                            if (data.error) { wout.textContent = 'Weather error: '+data.error; return; }
+                            wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rain: ${data.rainfall} mm</div>`;
+                        }).catch(err=> wout.textContent='Failed to load weather: '+err.message);
+                    }
+                });
+            }
+        }
+        ,
+        dateClick: function(info){
+            // Prompt to create a simple event
+            const title = prompt('Create event title (e.g. sowing):');
+            if (!title) return;
+            // Our ImportantDate model only accepts specific event_type choices (sowing/harvest/other).
+            // To allow arbitrary titles from users, store the entered text in `notes` and use a safe
+            // default event_type of 'other'.
+            const payload = { event_type: 'other', date: info.dateStr, notes: title };
+            if (window.calendarAdapter && window.calendarAdapter.createEvent){
+                window.calendarAdapter.createEvent(payload).then(created => {
+                    calendar.refetchEvents();
+                }).catch(err => alert('Failed to create event'));
+            }
+        },
+        eventChange: function(info){
+            // handle drag/drop or resize
+            const ev = info.event;
+            const payload = { date: ev.startStr, end_date: ev.endStr || ev.startStr };
+            if (window.calendarAdapter && window.calendarAdapter.updateEvent){
+                window.calendarAdapter.updateEvent(ev.id, payload).then(updated => {
+                    calendar.refetchEvents();
+                }).catch(err => alert('Failed to update event'));
+            }
+        },
+        eventDidMount: function(info){
+            // double-click to delete
+            info.el.addEventListener('dblclick', function(){
+                if (!confirm('Delete this event?')) return;
+                if (window.calendarAdapter && window.calendarAdapter.deleteEvent){
+                    window.calendarAdapter.deleteEvent(info.event.id).then(() => calendar.refetchEvents()).catch(() => alert('Failed to delete'));
+                }
+            });
+        }
+    });
+        calendar.render();
+    } catch (err) {
+        console.error('Calendar initialization failed:', err);
+        // leave an informative message for the user in the calendar container
+        const el = document.getElementById('calendar-container');
+        if (el) el.innerHTML = '<div style="padding:24px;color:#666">Unable to load calendar widget. Check your network or open the browser console for details.</div>';
     }
-    
-    // Handle logout
-    const logoutBtn = document.querySelector('.header-btn:last-child');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            localStorage.clear();
-            window.location.href = '/';
-        });
-    }
-});
+}
+
+document.addEventListener('DOMContentLoaded', ensureCalendarAndInit);
 </script>
+<script>
+console.log('csrftoken cookie:', (document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)')||[])[2]);
+console.log('calendarAdapter', window.calendarAdapter);
+    </script>

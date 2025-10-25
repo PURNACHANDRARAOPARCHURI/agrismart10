@@ -1,0 +1,28 @@
+/* Minimal FullCalendar fallback CSS
+   This is a small, local fallback so the dashboard doesn't 404 when the official
+   FullCalendar stylesheet isn't available. It provides basic layout and colors
+   but is not a full replacement for the official stylesheet. Replace with
+   the official `main.min.css` from FullCalendar when network/CDN access is available.
+*/
+.fc {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  box-sizing: border-box;
+  color: #333;
+}
+.fc * { box-sizing: inherit; }
+.fc-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+.fc-toolbar .fc-toolbar-chunk { display:flex; gap:0.35rem; align-items:center; }
+.fc-button { background:#f3f4f6; border:1px solid #d1d5db; padding:0.35rem 0.6rem; border-radius:4px; cursor:pointer; }
+.fc-button:hover { background:#e6e7ea; }
+.fc-button-primary { background:#2563eb; color:#fff; border-color:#2563eb; }
+.fc-daygrid { border:1px solid #e5e7eb; }
+.fc-daygrid .fc-daygrid-day { min-height:80px; padding:0.4rem; border-bottom:1px solid #f3f4f6; }
+.fc-daygrid .fc-daygrid-day-number { float:right; font-size:0.85rem; color:#6b7280; }
+.fc-daygrid-event { background:#0ea5e9; color:#fff; padding:0.15rem 0.4rem; border-radius:3px; display:block; margin:0.15rem 0; font-size:0.85rem; text-decoration:none; }
+.fc-list { padding:0.2rem; }
+.fc-scroller { max-height: 520px; overflow:auto; }
+
+/* Small responsive tweaks */
+@media (max-width:640px) {
+  .fc-toolbar { flex-direction: column; align-items: stretch; gap:0.4rem; }
+}

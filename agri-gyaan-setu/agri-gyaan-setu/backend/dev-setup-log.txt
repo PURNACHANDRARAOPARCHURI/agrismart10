@@ -1,0 +1,356 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20251024100244
+Username: DESKTOP-6MUBFB3\New
+RunAs User: DESKTOP-6MUBFB3\New
+Configuration Name: 
+Machine: DESKTOP-6MUBFB3 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command Import-Module 'c:\Users\New\.vscode-insiders\extensions\ms-vscode.powershell-2025.5.0\modules\PowerShellEditorServices\PowerShellEditorServices.psd1'; Start-EditorServices -HostName 'Visual Studio Code Host' -HostProfileId 'Microsoft.VSCode' -HostVersion '2025.5.0' -BundledModulesPath 'c:\Users\New\.vscode-insiders\extensions\ms-vscode.powershell-2025.5.0\modules' -EnableConsoleRepl -StartupBanner "PowerShell Extension v2025.5.0
+Copyright (c) Microsoft Corporation.
+
+https://aka.ms/vscode-powershell
+Type 'help' to get help.
+" -LogLevel 'Warning' -LogPath 'c:\Users\New\AppData\Roaming\Code - Insiders\logs\20251024T075554\window1\exthost\ms-vscode.powershell' -SessionDetailsPath 'c:\Users\New\AppData\Roaming\Code - Insiders\User\globalStorage\ms-vscode.powershell\sessions\PSES-VSCode-5076-915342.json' -FeatureFlags @() 
+Process ID: 10036
+PSVersion: 5.1.26100.6899
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.6899
+BuildVersion: 10.0.26100.6899
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend\dev-setup-log.txt
+=== Upgrading pip, setuptools and wheel ===
+
+=== Installing minimal packages for local dev ===
+
+=== Confirming dj-database-url is installed ===
+Name: dj-database-url Version: 3.0.1 Summary: Use Database URLs in your Django Application. Home-page: https://github.com/jazzband/dj-database-url Author: Original Author: Kenneth Reitz, Maintained by: JazzBand Community Author-email:  License: BSD Location: C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend\.venv\Lib\site-packages Requires: Django Required-by:
+=== Setting DB_ENGINE=sqlite for this session ===
+=== Running migrations ===
+
+=== Seeding crops ===
+
+=== Starting Django dev server on http://127.0.0.1:8000 ===
+
+PS>TerminatingError(): "The pipeline has been stopped."
+If the server stopped, run Stop-Transcript to close the log file. Log path: C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend\dev-setup-log.txt
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) .\.venv\Scripts\python.exe -m pip install requests
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackend> ]633;B
+(.venv) CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="ErrorAction"; value="Ignore"
+>> ParameterBinding(Get-Command): name="Name"; value="python.exe"
+
+CommandType     Name
+-----------     ----
+Application     python.exe
+
+
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) .\.venv\Scripts\python.exe manage.py migrate --noinput
+
+(.venv) CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="ErrorAction"; value="Ignore"
+>> ParameterBinding(Get-Command): name="Name"; value="python.exe"
+
+CommandType     Name
+-----------     ----
+Application     python.exe
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) .\.venv\Scripts\python.exe manage.py seed_crops
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackend> ]633;B
+(.venv) CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="ErrorAction"; value="Ignore"
+>> ParameterBinding(Get-Command): name="Name"; value="python.exe"
+
+CommandType     Name
+-----------     ----
+Application     python.exe
+
+
+(.venv) CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="ErrorAction"; value="Ignore"
+>> ParameterBinding(Get-Command): name="Name"; value="python.exe"
+
+CommandType     Name
+-----------     ----
+Application     python.exe
+
+
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) .\.venv\Scripts\python.exe manage.py runserverabs
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) .\.venv\Scripts\python.exe manage.py runserver
+
+(.venv) TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\backend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cbackend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Set-Location -LiteralPath 'C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend'
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) New-Item -ItemType Directory -Force -Path assets\vendor\fullcalendar
+
+
+    Directory: C:\Users\New\agrismart10\agri-gyaan-setu\agri-gya
+    an-setu\frontend\assets\vendor
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        24-10-2025     10:29                fullcalendar
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) New-Item -ItemType Directory -Force -Path assets\vendor\rrule
+
+
+    Directory: C:\Users\New\agrismart10\agri-gyaan-setu\agri-gya
+    an-setu\frontend\assets\vendor
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        24-10-2025     10:29                rrule
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.js' -OutFile 'assets\vendor\fullcalendar\main.min.js'
+>> TerminatingError(Invoke-WebRequest): "The remote server returned an error: (404) Not Found."
+Invoke-WebRequest : The remote server returned an error: (404) Not Found.
+At line:1 char:1
++ Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-WebRequest], 
+WebException
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+Invoke-WebRequest : The remote server returned an error: (404)
+Not Found.
+At line:1 char:1
++ Invoke-WebRequest -Uri
+'https://cdn.jsdelivr.net/npm/fullcalendar@6.1 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.Htt
+   pWebRequest:HttpWebRequest) [Invoke-WebRequest], WebExcepti
+  on
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Mic
+   rosoft.PowerShell.Commands.InvokeWebRequestCommand
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.css' -OutFile 'assets\vendor\fullcalendar\main.min.css'
+>> TerminatingError(Invoke-WebRequest): "The remote server returned an error: (404) Not Found."
+Invoke-WebRequest : The remote server returned an error: (404) Not Found.
+At line:1 char:1
++ Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-WebRequest], 
+WebException
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+Invoke-WebRequest : The remote server returned an error: (404)
+Not Found.
+At line:1 char:1
++ Invoke-WebRequest -Uri
+'https://cdn.jsdelivr.net/npm/fullcalendar@6.1 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.Htt
+   pWebRequest:HttpWebRequest) [Invoke-WebRequest], WebExcepti
+  on
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Mic
+   rosoft.PowerShell.Commands.InvokeWebRequestCommand
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Set-Location -LiteralPath 'C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend'
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.7/index.global.min.js' -OutFile 'assets\vendor\fullcalendar\main.min.js' -ErrorAction SilentlyContinue
+(.venv) CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="ErrorAction"; value="Ignore"
+>> ParameterBinding(Get-Command): name="Name"; value="Invoke-WebRequest"
+
+CommandType     Name
+-----------     ----
+Cmdlet          Invoke-WebRequest
+
+
+(.venv) CommandInvocation(Get-Help): "Get-Help"
+>> ParameterBinding(Get-Help): name="Name"; value="Invoke-WebRequest"
+>> ParameterBinding(Get-Help): name="Online"; value="False"
+>> ParameterBinding(Get-Help): name="ErrorAction"; value="Ignore"
+
+NAME
+    Invoke-WebRequest
+
+SYNTAX
+    Invoke-WebRequest [-Uri] <uri> [-UseBasicParsing]
+    [-WebSession <WebRequestSession>] [-SessionVariable
+    <string>] [-Credential <pscredential>]
+    [-UseDefaultCredentials] [-CertificateThumbprint <string>]
+    [-Certificate <X509Certificate>] [-UserAgent <string>]
+    [-DisableKeepAlive] [-TimeoutSec <int>] [-Headers
+    <IDictionary>] [-MaximumRedirection <int>] [-Method
+    {Default | Get | Head | Post | Put | Delete | Trace |
+    Options | Merge | Patch}] [-Proxy <uri>] [-ProxyCredential
+    <pscredential>] [-ProxyUseDefaultCredentials] [-Body
+    <Object>] [-ContentType <string>] [-TransferEncoding
+    {chunked | compress | deflate | gzip | identity}] [-InFile
+    <string>] [-OutFile <string>] [-PassThru]
+    [<CommonParameters>]
+
+
+ALIASES
+    iwr
+    wget
+    curl
+
+
+REMARKS
+    Get-Help cannot find the Help files for this cmdlet on this
+    computer. It is displaying only partial help.
+        -- To download and install Help files for the module
+    that includes this cmdlet, use Update-Help.
+        -- To view the Help topic for this cmdlet online, type:
+    "Get-Help Invoke-WebRequest -Online" or
+           go to https://go.microsoft.com/fwlink/?LinkID=217035.
+
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) if (-not (Test-Path 'assets\vendor\fullcalendar\main.min.js')) {
+    Invoke-WebRequest -Uri 'https://unpkg.com/@fullcalendar/core@6.1.7/index.global.min.js' -OutFile 'assets\vendor\fullcalendar\main.min.js'
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.7/main.min.css' -OutFile 'assets\vendor\fullcalendar\main.min.css' -ErrorAction SilentlyContinue
+>> TerminatingError(Invoke-WebRequest): "The remote server returned an error: (404) Not Found."
+Invoke-WebRequest : The remote server returned an error: (404) Not Found.
+At line:1 char:1
++ Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/@fullcalendar/co ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-WebRequest], 
+WebException
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+Invoke-WebRequest : The remote server returned an error: (404)
+Not Found.
+At line:1 char:1
++ Invoke-WebRequest -Uri
+'https://cdn.jsdelivr.net/npm/@fullcalendar/co ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.Htt
+   pWebRequest:HttpWebRequest) [Invoke-WebRequest], WebExcepti
+  on
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Mic
+   rosoft.PowerShell.Commands.InvokeWebRequestCommand
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) if (-not (Test-Path 'assets\vendor\fullcalendar\main.min.css')) {
+    Invoke-WebRequest -Uri 'https://unpkg.com/@fullcalendar/core@6.1.7/main.min.css' -OutFile 'assets\vendor\fullcalendar\main.min.css'
+}
+(.venv) TerminatingError(Invoke-WebRequest): "Not found: /@fullcalendar/core@6.1.7/main.min.css"
+Invoke-WebRequest : Not found: /@fullcalendar/core@6.1.7/main.min.css
+At line:2 char:5
++     Invoke-WebRequest -Uri 'https://unpkg.com/@fullcalendar/core@6.1. ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-WebRequest], 
+WebException
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+Invoke-WebRequest : Not found:
+/@fullcalendar/core@6.1.7/main.min.css
+At line:2 char:5
++     Invoke-WebRequest -Uri
+'https://unpkg.com/@fullcalendar/core@6.1. ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.Htt
+   pWebRequest:HttpWebRequest) [Invoke-WebRequest], WebExcepti
+  on
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Mic
+   rosoft.PowerShell.Commands.InvokeWebRequestCommand
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/rrule@2.7.1/dist/es5/rrule.min.js' -OutFile 'assets\vendor\rrule\rrule.min.js' -ErrorAction SilentlyContinue
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) if (-not (Test-Path 'assets\vendor\rrule\rrule.min.js')) {
+    Invoke-WebRequest -Uri 'https://unpkg.com/rrule@2.7.1/dist/es5/rrule.min.js' -OutFile 'assets\vendor\rrule\rrule.min.js'
+}
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Get-ChildItem -Path assets\vendor\fullcalendar -Name
+main.min.js
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) $global:__psEditorServices_userInput = $args[0]
+(.venv) $global:__psEditorServices_userInput = ""
+(.venv) Get-ChildItem -Path assets\vendor\rrule -Name
+rrule.min.js
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontendPS C:\Users\New\agrismart10\agri-gyaan-setu\agri-gyaan-setu\frontend> ]633;P;Prompt=PS C:\x5cUsers\x5cNew\x5cagrismart10\x5cagri-gyaan-setu\x5cagri-gyaan-setu\x5cfrontend> ]633;B
+(.venv) CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="ErrorAction"; value="Ignore"
+>> ParameterBinding(Get-Command): name="Name"; value="Activate.ps1"
+
+CommandType     Name
+-----------     ----
+ExternalScript  Activate.ps1
+
+
+(.venv) CommandInvocation(Get-Command): "Get-Command"
+>> ParameterBinding(Get-Command): name="ErrorAction"; value="Ignore"
+>> ParameterBinding(Get-Command): name="Name"; value="Activate.ps1"
+
+CommandType     Name
+-----------     ----
+ExternalScript  Activate.ps1
+
+

@@ -10,6 +10,7 @@ from .views import (
     recommendation_history_view,
     farmer_register_view,
     farmer_login_view
+    ,ImportantDateListCreateView, ImportantDateDetailView, weather_view
 )
 
 urlpatterns = [
@@ -34,4 +35,9 @@ urlpatterns = [
     # Authentication
     path('auth/register/', farmer_register_view, name='farmer-register'),
     path('auth/login/', farmer_login_view, name='farmer-login'),
+    # Calendar / Important Dates
+    path('calendar/', ImportantDateListCreateView.as_view(), name='importantdate-list-create'),
+    path('calendar/<int:pk>/', ImportantDateDetailView.as_view(), name='importantdate-detail'),
+    # Weather lookup (lat/lon or location string)
+    path('weather/', weather_view, name='weather'),
 ]

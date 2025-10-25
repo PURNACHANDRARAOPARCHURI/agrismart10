@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Price Forecast | AgriSmart</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
     body { background: #f6faf6; }
@@ -97,7 +98,7 @@
 </head>
 <body>
     <div class="crop-header">
-        <button class="back-btn" onclick="window.location.href='dashboard/'">&#8592;</button>
+        <button class="back-btn" onclick="window.location.href='/dashboard/'">&#8592;</button>
         <div class="crop-header-title">Dashboard</div>
     </div>
     <div class="crop-section-title">Price Forecast</div>
@@ -118,9 +119,9 @@
         <div id="forecast-details"></div>
     </div>
 
+    <script src="{% static 'assets/js/api.js' %}"></script>
+    <script src="{% static 'assets/js/i18n.js' %}"></script>
     <script>
-        const API_BASE_URL = 'http://localhost:8000/api';
-        
         document.addEventListener('DOMContentLoaded', async function() {
             await loadCrops();
             
@@ -137,7 +138,7 @@
 
         async function loadCrops() {
             try {
-                const response = await fetch(`${API_BASE_URL}/crops/`);
+                const response = await fetch(`/api/crops/`);
                 if (!response.ok) {
                     throw new Error('Failed to load crops');
                 }
@@ -171,11 +172,8 @@
             details.innerHTML = '';
             
             try {
-                const response = await fetch(`${API_BASE_URL}/forecast/${cropId}/`);
-                if (!response.ok) {
-                    throw new Error('Failed to load price forecast');
-                }
-                const forecast = await response.json();
+                // Use shared api helper (window.api) which points to /api
+                const forecast = await window.api.getForecast(cropId);
                 
                 // Hide loading, show forecast
                 loading.style.display = 'none';

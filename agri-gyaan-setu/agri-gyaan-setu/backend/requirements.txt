@@ -6,3 +6,6 @@ joblib
 scikit-learn
 pandas
 numpy
+mysqlclient
+dj-database-url
+requests

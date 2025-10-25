@@ -50,16 +50,43 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agrigyaan_backend.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'agrismart',      # Set your MySQL DB name
-        'USER': 'root',    # Set your MySQL user
-        'PASSWORD': '1234',  # Set your MySQL password
-        'HOST': 'localhost',         # Or your DB host
-        'PORT': '3306',
+import dj_database_url
+
+# Database configuration - prefer environment variables so production can use
+# MySQL or PostgreSQL. If DATABASE_URL is not set, fall back to MySQL defaults
+# (as previously configured). For quick local development you can set
+# DB_ENGINE=sqlite to use a local SQLite file.
+DATABASE_URL = os.environ.get('DATABASE_URL')
+DB_ENGINE = os.environ.get('DB_ENGINE')
+
+# For local development (DEBUG=True) default to SQLite unless a DB is explicitly configured.
+if DEBUG and not DATABASE_URL and not DB_ENGINE:
+    DB_ENGINE = 'sqlite'
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
-}
+else:
+    if DB_ENGINE == 'sqlite':
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, '..', 'db.sqlite3'),
+            }
+        }
+    else:
+        # Default to MySQL settings (existing project defaults)
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.environ.get('DB_NAME', 'agrismart'),
+                'USER': os.environ.get('DB_USER', 'root'),
+                'PASSWORD': os.environ.get('DB_PASSWORD', '1234'),
+                'HOST': os.environ.get('DB_HOST', 'localhost'),
+                'PORT': os.environ.get('DB_PORT', '3306'),
+            }
+        }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -78,7 +105,21 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '..', 'frontend'),
 ]
 
+# Where `collectstatic` will gather static files for production
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'staticfiles')
+
 # CORS settings for frontend-backend communication
 CORS_ALLOW_ALL_ORIGINS = True  # For development only
 CORS_ALLOW_CREDENTIALS = True
+
+# OpenWeatherMap API key (set via environment variable in production)
+OPENWEATHERMAP_API_KEY = os.environ.get('OPENWEATHERMAP_API_KEY', '')
+
+# Simple in-memory cache for development (used by weather helper)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 

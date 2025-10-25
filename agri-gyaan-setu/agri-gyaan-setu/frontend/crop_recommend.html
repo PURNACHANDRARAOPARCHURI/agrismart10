@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Crop Recommendation | AgriSmart</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
     body { background: #f6faf6;}
@@ -94,7 +95,7 @@
 </head>
 <body>
     <div class="crop-header">
-        <button class="back-btn" onclick="window.location.href='dashboard/'">&#8592;</button>
+    <button class="back-btn" onclick="window.location.href='/dashboard/'">&#8592;</button>
         <div class="crop-header-title">Dashboard</div>
     </div>
     <div class="crop-section-title">Crop Recommendation</div>
@@ -103,43 +104,43 @@
         <div class="form-title">Farm Details</div>
         <form id="recommendation-form">
             <div class="form-row" style="flex-direction:column;">
-                <label for="location" style="font-weight:500;">Location <span style="color:#dc3e3e">*</span></label>
-                <input type="text" id="location" placeholder="Enter your location" required>
+                <label for="location" style="font-weight:500;">Location</label>
+                <input type="text" id="location" placeholder="Enter your location">
             </div>
             <div class="form-row">
                 <div>
-                    <label for="nitrogen" style="font-weight:500;">Nitrogen (ppm) <span style="color:#dc3e3e">*</span></label>
+                    <label for="nitrogen" style="font-weight:500;">Nitrogen (ppm)</label>
                     <input type="number" id="nitrogen" placeholder="e.g., 100" required>
                 </div>
                 <div>
-                    <label for="phosphorus" style="font-weight:500;">Phosphorus (ppm) <span style="color:#dc3e3e">*</span></label>
+                    <label for="phosphorus" style="font-weight:500;">Phosphorus (ppm)</label>
                     <input type="number" id="phosphorus" placeholder="e.g., 50" required>
                 </div>
             </div>
             <div class="form-row">
                 <div>
-                    <label for="potassium" style="font-weight:500;">Potassium (ppm) <span style="color:#dc3e3e">*</span></label>
+                    <label for="potassium" style="font-weight:500;">Potassium (ppm)</label>
                     <input type="number" id="potassium" placeholder="e.g., 200" required>
                 </div>
                 <div>
-                    <label for="temperature" style="font-weight:500;">Temperature (°C) <span style="color:#dc3e3e">*</span></label>
-                    <input type="number" id="temperature" placeholder="e.g., 25" required>
+                    <label for="temperature" style="font-weight:500;">Temperature (°C)</label>
+                    <input type="number" id="temperature" placeholder="e.g., 25">
                 </div>
             </div>
             <div class="form-row">
                 <div>
-                    <label for="humidity" style="font-weight:500;">Humidity (%) <span style="color:#dc3e3e">*</span></label>
-                    <input type="number" id="humidity" placeholder="e.g., 70" required>
+                    <label for="humidity" style="font-weight:500;">Humidity (%)</label>
+                    <input type="number" id="humidity" placeholder="e.g., 70">
                 </div>
                 <div>
-                    <label for="ph" style="font-weight:500;">pH Level <span style="color:#dc3e3e">*</span></label>
+                    <label for="ph" style="font-weight:500;">pH Level</label>
                     <input type="number" step="0.1" id="ph" placeholder="e.g., 6.5" required>
                 </div>
             </div>
             <div class="form-row">
                 <div>
-                    <label for="rainfall" style="font-weight:500;">Rainfall (mm) <span style="color:#dc3e3e">*</span></label>
-                    <input type="number" id="rainfall" placeholder="e.g., 1000" required>
+                    <label for="rainfall" style="font-weight:500;">Rainfall (mm)</label>
+                    <input type="number" id="rainfall" placeholder="e.g., 1000">
                 </div>
                 <div>
                     <label for="land-size" style="font-weight:500;">Land Size (Acres)</label>
@@ -154,12 +155,18 @@
         <div class="form-title">Recommendation Results</div>
         <div id="loading" class="loading" style="display: none;">Getting recommendation...</div>
         <div id="error" class="error" style="display: none;"></div>
-        <div id="recommendation-details"></div>
+        <div id="recommendation-details">
+            <div id="rec-summary" style="margin-bottom:12px;"></div>
+            <div id="rec-yield" style="font-weight:600;margin-bottom:8px;"></div>
+            <div id="rec-price" style="margin-bottom:8px;"></div>
+            <div id="rec-best-month" style="margin-bottom:12px; font-weight:700; color:#1b5e20;"></div>
+            <canvas id="price-forecast-chart" width="600" height="250" style="background:#fff;padding:12px;border-radius:8px;border:1px solid #e7f3e7;"></canvas>
+        </div>
     </div>
 
+    <script src="{% static 'assets/js/api.js' %}"></script>
+    <script src="{% static 'assets/js/i18n.js' %}"></script>
     <script>
-        const API_BASE_URL = 'http://localhost:8000/api';
-        
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('recommendation-form');
             form.addEventListener('submit', handleRecommendation);
@@ -170,82 +177,113 @@
             
             const resultsDiv = document.getElementById('recommendation-results');
             const loading = document.getElementById('loading');
-            const error = document.getElementById('error');
+                const errorEl = document.getElementById('error');
             const details = document.getElementById('recommendation-details');
             
             // Show loading state
             resultsDiv.style.display = 'block';
             loading.style.display = 'block';
-            error.style.display = 'none';
-            details.innerHTML = '';
+            errorEl.style.display = 'none';
+            // keep the details container intact (don't clear its inner HTML or we lose the result nodes)
+            details.style.display = 'block';
             
-            // Collect form data
-            const formData = {
-                nitrogen: parseFloat(document.getElementById('nitrogen').value),
-                phosphorus: parseFloat(document.getElementById('phosphorus').value),
-                potassium: parseFloat(document.getElementById('potassium').value),
-                temperature: parseFloat(document.getElementById('temperature').value),
-                humidity: parseFloat(document.getElementById('humidity').value),
-                ph: parseFloat(document.getElementById('ph').value),
-                rainfall: parseFloat(document.getElementById('rainfall').value)
-            };
-            
-            // Create features array for ML model (order matters!)
-            const features = [
-                formData.nitrogen,
-                formData.phosphorus,
-                formData.potassium,
-                formData.temperature,
-                formData.humidity,
-                formData.ph,
-                formData.rainfall
-            ];
+            // Collect and validate required fields (N, P, K, pH)
+            const n = parseFloat(document.getElementById('nitrogen').value);
+            const p = parseFloat(document.getElementById('phosphorus').value);
+            const k = parseFloat(document.getElementById('potassium').value);
+            const phVal = parseFloat(document.getElementById('ph').value);
+
+            if (isNaN(n) || isNaN(p) || isNaN(k) || isNaN(phVal)) {
+                loading.style.display = 'none';
+                resultsDiv.style.display = 'block';
+                    errorEl.style.display = 'block';
+                    errorEl.textContent = 'Please fill the required fields: Nitrogen, Phosphorus, Potassium and pH.';
+                return;
+            }
+
+            // Optional fields are accepted but not required by the model
+            const temperature = parseFloat(document.getElementById('temperature').value) || 0;
+            const humidity = parseFloat(document.getElementById('humidity').value) || 0;
+            const rainfall = parseFloat(document.getElementById('rainfall').value) || 0;
+
+            // Send only features the model expects: [N, P, K, pH]
+            const features = [n, p, k, phVal];
             
             try {
-                const response = await fetch(`${API_BASE_URL}/recommend/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ features: features })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to get recommendation');
-                }
-                
-                const result = await response.json();
+                // include farmer_id if available
+                const farmerId = localStorage.getItem('farmer_id');
+                const payload = { features: features };
+                if (farmerId) payload.farmer_id = parseInt(farmerId);
+
+                const result = await window.api.recommendCrop(payload);
                 
                 // Hide loading, show results
                 loading.style.display = 'none';
-                details.innerHTML = `
-                    <div class="recommendation-result">
-                        <div class="crop-name">${result.recommended_crop}</div>
-                        <div class="confidence-score">Recommended Crop</div>
-                        <p style="color: #24411f; margin: 10px 0;">
-                            Based on your soil and environmental conditions, 
-                            <strong>${result.recommended_crop}</strong> is the most suitable crop for your farm.
-                        </p>
-                        <div style="margin-top: 15px;">
-                            <h4 style="color: #193718; margin-bottom: 10px;">Your Input Parameters:</h4>
-                            <ul style="color: #24411f; line-height: 1.6;">
-                                <li>Nitrogen: ${formData.nitrogen} ppm</li>
-                                <li>Phosphorus: ${formData.phosphorus} ppm</li>
-                                <li>Potassium: ${formData.potassium} ppm</li>
-                                <li>Temperature: ${formData.temperature}°C</li>
-                                <li>Humidity: ${formData.humidity}%</li>
-                                <li>pH Level: ${formData.ph}</li>
-                                <li>Rainfall: ${formData.rainfall} mm</li>
-                            </ul>
-                        </div>
-                    </div>
-                `;
-                
-            } catch (error) {
-                console.error('Error getting recommendation:', error);
+                const summary = document.getElementById('rec-summary');
+                const yieldEl = document.getElementById('rec-yield');
+                const priceEl = document.getElementById('rec-price');
+                const bestMonthEl = document.getElementById('rec-best-month');
+
+                summary.innerHTML = `<div class="recommendation-result"><div class="crop-name">${result.recommended_crop}</div></div>`;
+                yieldEl.textContent = `Expected yield: ${result.expected_yield}`;
+                priceEl.textContent = `Predicted price: ${result.predicted_price}`;
+                bestMonthEl.textContent = `Best selling month: ${result.best_selling_month}`;
+
+                // Draw forecast chart
+                const chartCanvas = document.getElementById('price-forecast-chart');
+                const ctx = chartCanvas.getContext('2d');
+                // Clean previous chart (if any)
+                if (window._priceChart) { window._priceChart.destroy(); }
+                const labels = ['M1','M2','M3','M4','M5','M6'];
+                const dataPoints = [
+                    result.forecast.month_1,
+                    result.forecast.month_2,
+                    result.forecast.month_3,
+                    result.forecast.month_4,
+                    result.forecast.month_5,
+                    result.forecast.month_6,
+                ];
+                // Load Chart.js dynamically if not present
+                function loadChartAndRender(){
+                    if (typeof Chart === 'undefined') {
+                        const s = document.createElement('script');
+                        s.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+                        s.onload = renderChart;
+                        document.head.appendChild(s);
+                    } else renderChart();
+                }
+
+                function renderChart(){
+                    window._priceChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Predicted price (₹)',
+                                data: dataPoints,
+                                borderColor: '#2e7d32',
+                                backgroundColor: 'rgba(46,125,50,0.1)',
+                                tension: 0.3,
+                                fill: true,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: { beginAtZero: false }
+                            }
+                        }
+                    });
+                }
+
+                loadChartAndRender();
+            } catch (err) {
+                console.error('Error getting recommendation:', err);
                 loading.style.display = 'none';
-                error.style.display = 'block';
-                error.textContent = 'Failed to get recommendation. Please check your input and try again.';
+                errorEl.style.display = 'block';
+                // Show server / network error details if available to aid debugging
+                const msg = (err && err.message) ? err.message : String(err);
+                errorEl.textContent = 'Failed to get recommendation. ' + msg;
             }
         }
     </script>
