@@ -12,6 +12,7 @@ from .weather import geocode_location, fetch_short_forecast
 from . import price_model
 from pathlib import Path
 from django.utils.dateparse import parse_date
+from django.conf import settings
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -287,6 +288,11 @@ def weather_view(request):
     Accepts either ?lat=..&lon=.. or ?location=CityName and returns the
     short forecast dict produced by fetch_short_forecast.
     """
+    # DEBUG: print whether settings have the OpenWeather key (boolean only — no secret)
+    try:
+        print('weather_view: OPENWEATHERMAP_API_KEY present ->', bool(getattr(settings, 'OPENWEATHERMAP_API_KEY', None)))
+    except Exception:
+        print('weather_view: OPENWEATHERMAP_API_KEY check failed')
     lat = request.query_params.get('lat')
     lon = request.query_params.get('lon')
     location = request.query_params.get('location')

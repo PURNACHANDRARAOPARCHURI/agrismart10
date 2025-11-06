@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{% static 'assets/vendor/fullcalendar/main.min.css' %}">
 
     <style>
+    /* enable smooth in-page scrolling for anchor links */
+    html { scroll-behavior: smooth; }
     /* Minimal inline styles for dashboard layout. The main stylesheet provides full site styles. */
     .quick-actions {
         margin-top:12px;
@@ -112,12 +114,12 @@
                 <div class="logo-icon">AS</div>
             <div class="logo-text">AgriSmart</div>
         </div>
-        <div class="header-actions">
+            <div class="header-actions">
             <button class="language-selector" id="language-btn">🌐 English ▼</button>
             <div style="display:flex; align-items:center; gap:12px;">
                 <span id="farmer-name" style="font-weight:600; color:#2E7D32;"></span>
-                <button id="about-btn" class="about-btn header-btn" type="button">ℹ️ About</button>
-                <button id="logout-btn" class="about-btn header-btn" type="button">🚪 Logout</button>
+                <button id="about-btn" class="about-btn header-btn" type="button" data-i18n="btn_about">ℹ️ About</button>
+                <button id="logout-btn" class="about-btn header-btn" type="button" data-i18n="btn_logout">🚪 Logout</button>
             </div>
         </div>
     </div>
@@ -126,7 +128,7 @@
     <div class="main-content">
         <!-- Page Header -->
         <div class="page-header">
-            <button class="back-btn" onclick="window.location.href='/'">← Back to Home</button>
+            <button class="back-btn" data-i18n="back_to_home" onclick="window.location.href='/'">← Back to Home</button>
             </div>
 
         <script>
@@ -148,6 +150,21 @@
                     window.location.href = '/';
                 });
             }
+            // Handle About button -> scroll to Why Choose section if present
+            const aboutBtn = document.getElementById('about-btn');
+            if (aboutBtn) {
+                aboutBtn.addEventListener('click', function(e){
+                    e.preventDefault();
+                    const target = document.getElementById('why-choose');
+                    if (target) {
+                        // smooth scroll to the section
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        // fallback: navigate to dashboard anchor (in case this page is different)
+                        window.location.href = '/dashboard/#why-choose';
+                    }
+                });
+            }
         });
         </script>
         <script src="{% static 'assets/js/i18n.js' %}"></script>
@@ -159,7 +176,8 @@
                 <a class="action-tile feature-card" href="/crop-recommend/" data-i18n="tile_recommend" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">💡 Crop Recommendation</a>
                 <a class="action-tile feature-card" href="/price-forecast/" data-i18n="tile_forecast" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">📈 Price Forecast</a>
                 <a class="action-tile feature-card" href="/crop-info/" data-i18n="tile_info" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">🌾 Crop Info</a>
-                <a class="action-tile feature-card" href="/calendar/" data-i18n="tile_calendar" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">📅 Calendar</a>
+                <!-- Link to dashboard with anchor so clicking scrolls to the calendar section -->
+                <a class="action-tile feature-card" href="/dashboard/#calendar-container" data-i18n="tile_calendar" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">📅 Calendar</a>
                 <a class="action-tile feature-card" href="/signup/" data-i18n="tile_profile" style="padding:12px 18px; text-decoration:none; color:inherit; border-radius:8px; border:1px solid #e6f3ea;">👤 Profile</a>
             </div>
         </div>
@@ -188,14 +206,14 @@
             </div>
         </div>
 
-        <div class="feature-card">
-            <div class="feature-icon">📅</div>
-            <h3 class="feature-title" data-i18n="tile_calendar">Crop Calendar</h3>
-            <p class="feature-description">Important sowing & harvesting dates. Click a date to view events and quick weather.</p>
-            <div id="calendar-container" style="min-height:260px; max-width:900px; margin:0 auto;"></div>
-        </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3 class="feature-title" data-i18n="tile_calendar">Crop Calendar</h3>
+                <p class="feature-description" data-i18n="calendar_description">Important sowing & harvesting dates. Click a date to view events and quick weather.</p>
+                <div id="calendar-container" style="min-height:260px; max-width:900px; margin:0 auto;"></div>
+            </div>
 
-        <div class="why-choose-section">
+        <div id="why-choose" class="why-choose-section">
         <h2 class="section-title">Why Choose AgriSmart?</h2>
             <div class="benefits-grid">
                 <div class="benefit-card">
@@ -225,6 +243,9 @@
 <!-- Load API helper and calendar integration (vendor JS loaded dynamically) -->
 <script src="{% static 'assets/js/api.js' %}"></script>
 <script src="{% static 'assets/js/calendar.js' %}"></script>
+<!-- Vendor scripts are loaded dynamically by ensureCalendarAndInit().
+    Avoid static CDN tags here to prevent duplicate loads and plugin registration
+    when the dynamic loader runs or when local vendor copies exist. -->
 <script>
 // Ensure FullCalendar (and rrule) are loaded before initializing the calendar.
 function loadScript(src){
@@ -314,7 +335,36 @@ async function ensureCalendarAndInit(){
             }
         }
 
-        await ensurePlugins();
+        // If FullCalendar already has plugins registered (e.g. a bundled main.min.js
+        // that includes plugins), skip loading plugin files to avoid duplicate-plugin
+        // registration warnings. Otherwise, attempt to load the plugin candidates.
+        if (typeof FullCalendar !== 'undefined' && FullCalendar.globalPlugins && FullCalendar.globalPlugins.length > 0) {
+            console.log('Detected existing FullCalendar plugins (count=' + FullCalendar.globalPlugins.length + '), skipping plugin file loads to avoid duplicates.');
+            console.debug('FullCalendar.globalPlugins:', FullCalendar.globalPlugins);
+        } else {
+            await ensurePlugins();
+        }
+
+        // Try to load FullCalendar locales (all locales) so setOption('locale', ..)
+        // works for languages like 'te'. Try a list of possible local/CDN paths and
+        // stop at the first that succeeds. Fail silently if none available.
+        const localeCandidates = [
+            '{% static "assets/vendor/fullcalendar/locales-all.min.js" %}',
+            '{% static "assets/vendor/fullcalendar/locales-all.global.min.js" %}',
+            'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/locales-all.min.js',
+            'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/locales-all.global.min.js',
+            'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/locales.min.js'
+        ];
+        for (const url of localeCandidates) {
+            try {
+                await loadScript(url);
+                console.log('Loaded FullCalendar locales from', url);
+                break;
+            } catch (e) {
+                // try next candidate
+                console.warn('Locales load failed for', url, e && e.message ? e.message : e);
+            }
+        }
 
         // helper to find the plugin object exposed by the UMD build under a few possible globals
         function findPlugin(name){
@@ -333,8 +383,8 @@ async function ensureCalendarAndInit(){
 
         const plugins = [dayGridPlugin, timeGridPlugin, interactionPlugin].filter(Boolean);
 
-        // initialize FullCalendar
-        const calendarEl = document.getElementById('calendar-container');
+    // initialize FullCalendar
+    const calendarEl = document.getElementById('calendar-container');
         if (!calendarEl) return;
         const calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: plugins.length ? plugins : undefined,
@@ -396,7 +446,9 @@ async function ensureCalendarAndInit(){
                                 return r.json();
                             }).then(data => {
                                 if (data.error) { wout.textContent = 'Weather error: '+data.error; return; }
-                                wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rainfall: ${data.rainfall} mm</div>`;
+                                    let note = '';
+                                    if (data.mocked) note = '<div style="color:#b36; font-weight:600; margin-top:6px">(Sample data — OpenWeatherMap API key not configured)</div>';
+                                    wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rainfall: ${data.rainfall} mm</div>` + note;
                             }).catch(err=>{ wout.textContent='Failed to load weather: '+err.message; });
                         }, err => {
                             // ask for manual location if permission denied
@@ -404,7 +456,9 @@ async function ensureCalendarAndInit(){
                             if (!loc) { wout.textContent = 'No location provided'; return; }
                             fetch(`/api/weather/?location=${encodeURIComponent(loc)}`).then(r=>{ if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(data => {
                                 if (data.error) { wout.textContent = 'Weather error: '+data.error; return; }
-                                wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rain: ${data.rainfall} mm</div>`;
+                                    let note = '';
+                                    if (data.mocked) note = '<div style="color:#b36; font-weight:600; margin-top:6px">(Sample data — OpenWeatherMap API key not configured)</div>';
+                                    wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rain: ${data.rainfall} mm</div>` + note;
                             }).catch(err=> wout.textContent='Failed to load weather: '+err.message);
                         }, {timeout:5000});
                     } else {
@@ -412,7 +466,9 @@ async function ensureCalendarAndInit(){
                         if (!loc) { wout.textContent = 'No location provided'; return; }
                         fetch(`/api/weather/?location=${encodeURIComponent(loc)}`).then(r=>{ if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(data => {
                             if (data.error) { wout.textContent = 'Weather error: '+data.error; return; }
-                            wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rain: ${data.rainfall} mm</div>`;
+                                let note = '';
+                                if (data.mocked) note = '<div style="color:#b36; font-weight:600; margin-top:6px">(Sample data — OpenWeatherMap API key not configured)</div>';
+                                wout.innerHTML = `<div>Temp: ${data.temperature} °C<br>Humidity: ${data.humidity}%<br>Rain: ${data.rainfall} mm</div>` + note;
                         }).catch(err=> wout.textContent='Failed to load weather: '+err.message);
                     }
                 });
@@ -454,6 +510,22 @@ async function ensureCalendarAndInit(){
         }
     });
         calendar.render();
+        // expose for other scripts to interact (e.g., i18n language change)
+        try { window._agriCalendar = calendar; } catch(e){}
+
+        // react to language changes from the i18n loader
+        try {
+            window.addEventListener('i18n:languageChanged', function(ev){
+                const lang = ev && ev.detail && ev.detail.lang ? ev.detail.lang : null;
+                if (!lang) return;
+                if (window._agriCalendar && typeof window._agriCalendar.setOption === 'function'){
+                    try {
+                        window._agriCalendar.setOption('locale', lang);
+                        window._agriCalendar.render();
+                    } catch(err){ console.warn('Failed to update calendar locale', err); }
+                }
+            });
+        } catch(e){ /* ignore */ }
     } catch (err) {
         console.error('Calendar initialization failed:', err);
         // leave an informative message for the user in the calendar container
@@ -468,3 +540,72 @@ document.addEventListener('DOMContentLoaded', ensureCalendarAndInit);
 console.log('csrftoken cookie:', (document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)')||[])[2]);
 console.log('calendarAdapter', window.calendarAdapter);
     </script>
+<script>
+// Repair loader: if FullCalendar (or RRule) failed to load earlier, attempt a deterministic
+// sequential CDN load and re-run the calendar initializer. This runs after DOMContentLoaded
+// and is a best-effort attempt to restore the previous calendar UI.
+(function(){
+    function loadScript(src){
+        return new Promise((resolve, reject) => {
+            if (!src) return reject(new Error('empty src'));
+            const s = document.createElement('script');
+            s.src = src;
+            s.async = false;
+            s.onload = () => { console.log('Loaded', src); resolve(); };
+            s.onerror = (e) => { console.warn('Failed to load', src, e); reject(new Error('Failed to load '+src)); };
+            document.head.appendChild(s);
+        });
+    }
+
+    async function repair() {
+        try {
+            if (typeof FullCalendar !== 'undefined') {
+                console.log('FullCalendar present; no repair needed');
+                return;
+            }
+
+            // guard so we don't run multiple times
+            if (window._calendarRepairRan) { console.log('Repair loader already ran; skipping'); return; }
+            window._calendarRepairRan = true;
+
+            console.warn('FullCalendar missing - attempting CDN repair load (selective)');
+
+            const pluginCandidates = [
+                { name: 'core', urls: ['https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.js'] },
+                { name: 'dayGrid', urls: ['https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.7/index.global.min.js'] },
+                { name: 'timeGrid', urls: ['https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.7/index.global.min.js'] },
+                { name: 'interaction', urls: ['https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.7/index.global.min.js'] },
+                { name: 'rrule', urls: ['https://cdn.jsdelivr.net/npm/rrule@2.7.1/dist/es5/rrule.min.js'] },
+                { name: 'locales', urls: ['https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/locales-all.min.js','https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/locales-all.global.min.js'] }
+            ];
+
+            function pluginPresent(name){
+                if (name === 'core') return typeof FullCalendar !== 'undefined';
+                const camel = name.charAt(0).toUpperCase() + name.slice(1);
+                return !!(window[name + 'Plugin'] || window['FullCalendar' + camel + 'Plugin'] || window['FullCalendar' + camel]);
+            }
+
+            for (const p of pluginCandidates) {
+                if (pluginPresent(p.name)) { console.log('Plugin already present, skipping:', p.name); continue; }
+                let loaded = false;
+                for (const u of p.urls) {
+                    try { await loadScript(u); loaded = true; break; } catch (err) { console.warn('Repair: failed to load', u); }
+                }
+                if (!loaded) console.warn('Repair: none of the URLs loaded for', p.name);
+            }
+
+            // small delay to let UMD scripts attach globals
+            await new Promise(r => setTimeout(r, 200));
+
+            if (typeof ensureCalendarAndInit === 'function') {
+                try { ensureCalendarAndInit(); console.log('ensureCalendarAndInit() invoked by repair loader'); }
+                catch(e){ console.error('Repair: ensureCalendarAndInit failed', e); }
+            } else {
+                console.warn('Repair: ensureCalendarAndInit not found on page');
+            }
+        } catch(e){ console.error('Repair loader error', e); }
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', repair); else repair();
+})();
+</script>

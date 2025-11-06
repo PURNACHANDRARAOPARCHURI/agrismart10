@@ -13,6 +13,8 @@ urlpatterns = [
     path('index.html', TemplateView.as_view(template_name='index.html'), name='home-html'),
     path('dashboard/', TemplateView.as_view(template_name='dashboard.html'), name='dashboard'),
     path('dashboard.html', TemplateView.as_view(template_name='dashboard.html'), name='dashboard-html'),
+    # Provide a /calendar/ route that serves the dashboard page (calendar is part of dashboard)
+    path('calendar/', TemplateView.as_view(template_name='dashboard.html'), name='calendar'),
     path('crop-info/', TemplateView.as_view(template_name='crop_info.html'), name='crop-info'),
     path('crop_info.html', TemplateView.as_view(template_name='crop_info.html'), name='crop-info-html'),
     path('crop-recommend/', TemplateView.as_view(template_name='crop_recommend.html'), name='crop-recommend'),
